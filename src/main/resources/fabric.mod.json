@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "skylorlib",
+  "version": "1.0.0",
+  "name": "SkylorLib",
+  "description": "A library designed for use with all mods by Skylor Beck",
+  "authors": [
+    "Skylor Beck"
+  ],
+  "contact": {
+    "homepage": "https://www.skylorbeck.website",
+    "repo": "https://github.com/Skylortrexler/SkylorLib"
+  },
+  "license": "LGPL-3.0",
+  "icon": "assets/SkylorLib/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "website.skylorbeck.minecraft.skylorlib.client.SkylorLibClient"
+    ],
+    "main": [
+      "website.skylorbeck.minecraft.skylorlib.SkylorLib"
+    ]
+  },
+  "mixins": [
+    "SkylorLib.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.6",
+    "fabric": "*",
+    "minecraft": "1.17.1"
+  }
+}
