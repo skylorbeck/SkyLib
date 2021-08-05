@@ -27,7 +27,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public abstract class ExtraChestEntity extends ChestBlockEntity implements ChestAnimationProgress {
-    public static String MODID = "skylorlib";
+    private static String MODID = "skylorlib";
     protected DefaultedList<ItemStack> inventory;
     private final ViewerCountManager stateManager;
     private final ChestLidAnimator lidAnimator;
@@ -36,13 +36,16 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
     private final String addition;
     private final boolean trapped;
     private final int size;
+    public final boolean singleLatch;
 
 
-    protected ExtraChestEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState,int size,String type, boolean trapped) {
+    protected ExtraChestEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState,int size,String type, boolean trapped, boolean singleLatch, String MODID) {
         super(blockEntityType, blockPos, blockState);
         this.addition = type;
         this.trapped= trapped;
+        this.singleLatch = singleLatch;
         this.size = size;
+        ExtraChestEntity.MODID = MODID;
         this.inventory = DefaultedList.ofSize(size, ItemStack.EMPTY);
         this.stateManager = new ViewerCountManager() {
 
@@ -86,13 +89,8 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
         return new SpriteIdentifier(identifier,new Identifier((trapped ? base+"trapped/" : base)+addition+"_right"));
     }
 
-
     public int size() {
         return size;
-    }
-
-    protected Text getContainerName() {
-        return new TranslatableText("container.chest");
     }
 
     public void readNbt(NbtCompound nbt) {
@@ -182,16 +180,11 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
         return 0;
     }
 
-
-    protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
-        return GenericContainerScreenHandler.createGeneric9x3(syncId, playerInventory, this);
-    }
     public static void copyInventory(ExtraChestEntity from, ExtraChestEntity to) {
         DefaultedList<ItemStack> defaultedList = from.getInvStackList();
         from.setInvStackList(to.getInvStackList());
         to.setInvStackList(defaultedList);
     }
-
 
     public void onScheduledTick() {
         if (!this.removed) {
@@ -205,6 +198,18 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
         world.addSyncedBlockEvent(pos, block, 1, newViewerCount);
     }
 
-
+    //override these
+    protected Text getContainerName() {
+        return new TranslatableText("container.chest");
+    }
+    protected Text getDoubleContainerName(){
+        return new TranslatableText("container.chestDouble");
+    }
+    protected ScreenHandler createDoubleScreenHandler(int syncid, PlayerInventory playerInventory, Inventory inventory){
+        return GenericContainerScreenHandler.createGeneric9x6(syncid,playerInventory,inventory);
+    }
+    protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
+        return GenericContainerScreenHandler.createGeneric9x3(syncId, playerInventory, this);
+    }
 
 }

@@ -334,21 +334,7 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
                         if (ExtraChestEntity.checkUnlocked(playerEntity) && ExtraChestEntity2.checkUnlocked(playerEntity)) {
                             ExtraChestEntity.checkLootInteraction(playerInventory.player);
                             ExtraChestEntity2.checkLootInteraction(playerInventory.player);
-                            ScreenHandler screenHandler =  GenericContainerScreenHandler.createGeneric9x6(i,playerInventory,inventory);//todo make this a function that children can override
-                            /*if (ExtraChestEntity instanceof IronChestEntity || ExtraChestEntity instanceof IronTrappedChestEntity){
-                                screenHandler =  new GoldScreenHandler(i, playerInventory, inventory,12,9);
-                            } else if (ExtraChestEntity instanceof GoldChestEntity || ExtraChestEntity instanceof GoldTrappedChestEntity){
-                                screenHandler =  new DiamondScreenHandler(i, playerInventory, inventory,24,9);
-                            } else if (ExtraChestEntity instanceof DiamondChestEntity || ExtraChestEntity instanceof DiamondTrappedChestEntity || ExtraChestEntity instanceof NetheriteChestEntity || ExtraChestEntity instanceof NetheriteTrappedChestEntity){
-                                screenHandler =  new AmethystScreenHandler(i, playerInventory, inventory,48,9);
-                            } else if (ExtraChestEntity instanceof AmethystChestEntity || ExtraChestEntity instanceof AmethystTrappedChestEntity){
-                                screenHandler =  new AmethystDoubleScreenHandler(i, playerInventory, inventory,96,9);
-                            } else if (ExtraChestEntity instanceof DirtChestEntity || ExtraChestEntity instanceof DirtTrappedChestEntity){
-                                screenHandler =  new DirtDoubleScreenHandler(i, playerInventory, inventory,1,2);
-                            } else {
-                                screenHandler = GenericContainerScreenHandler.createGeneric9x6(i,playerInventory,inventory);
-                            }*/
-                                return screenHandler;
+                            return ExtraChestEntity2.createDoubleScreenHandler(i,playerInventory,inventory);
                         } else {
                             return null;
                         }
@@ -358,25 +344,7 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
                         if (ExtraChestEntity.hasCustomName()) {
                             return ExtraChestEntity.getDisplayName();
                         } else {
-                            TranslatableText translatableText = new TranslatableText("container.chestDouble");//todo make this a function that children can override
-                            /*if (ExtraChestEntity2 instanceof IronChestEntity || ExtraChestEntity2 instanceof IronTrappedChestEntity){
-                                translatableText = new TranslatableText("container.ironchestdouble");
-                            } else if (ExtraChestEntity2 instanceof GoldChestEntity || ExtraChestEntity2 instanceof GoldTrappedChestEntity){
-                                translatableText = new TranslatableText("container.goldchestdouble");
-                            } else if (ExtraChestEntity2 instanceof DiamondChestEntity || ExtraChestEntity2 instanceof DiamondTrappedChestEntity){
-                                translatableText = new TranslatableText("container.diamondchestdouble");
-                            } else if (ExtraChestEntity2 instanceof NetheriteChestEntity || ExtraChestEntity2 instanceof NetheriteTrappedChestEntity){
-                                translatableText = new TranslatableText("container.netheritechestdouble");
-                            } else if (ExtraChestEntity2 instanceof AmethystChestEntity || ExtraChestEntity2 instanceof AmethystTrappedChestEntity){
-                                translatableText = new TranslatableText("container.amethystchestdouble");
-                            } else if (ExtraChestEntity2 instanceof ChristmasChestEntity || ExtraChestEntity2 instanceof ChristmasTrappedChestEntity){
-                                translatableText = new TranslatableText("container.festivechestdouble");
-                            } else if (ExtraChestEntity2 instanceof PumpkinChestEntity || ExtraChestEntity2 instanceof PumpkinTrappedChestEntity){
-                                translatableText = new TranslatableText("container.pumpkinchestdouble");
-                            } else if (ExtraChestEntity2 instanceof DirtChestEntity || ExtraChestEntity2 instanceof DirtTrappedChestEntity){
-                                translatableText = new TranslatableText("container.dirtchestdouble");
-                            }*/
-                            return ExtraChestEntity2.hasCustomName() ? ExtraChestEntity2.getDisplayName() : translatableText;
+                            return ExtraChestEntity2.hasCustomName() ? ExtraChestEntity2.getDisplayName() : ExtraChestEntity2.getDoubleContainerName();
                         }
                     }
                 });

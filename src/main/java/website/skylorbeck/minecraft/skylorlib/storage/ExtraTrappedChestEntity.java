@@ -8,8 +8,8 @@ import net.minecraft.world.World;
 
 public abstract class ExtraTrappedChestEntity extends ExtraChestEntity {
 
-    protected ExtraTrappedChestEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState, int size, String type, boolean trapped) {
-        super(blockEntityType, blockPos, blockState, size, type, trapped);
+    protected ExtraTrappedChestEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState, int size, String type, boolean trapped, boolean singleLatch,String MODID) {
+        super(blockEntityType, blockPos, blockState, size, type, trapped, singleLatch, MODID);
     }
 
     protected void onInvOpenOrClose(World world, BlockPos pos, BlockState state, int oldViewerCount, int newViewerCount) {
