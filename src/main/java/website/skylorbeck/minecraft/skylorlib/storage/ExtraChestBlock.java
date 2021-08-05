@@ -54,9 +54,6 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
     public static final DirectionProperty FACING;
     public static final EnumProperty<ChestType> CHEST_TYPE;
     public static final BooleanProperty WATERLOGGED;
-    public static final int field_31057 = 1;
-    protected static final int field_31058 = 1;
-    protected static final int field_31059 = 14;
     protected static final VoxelShape DOUBLE_NORTH_SHAPE;
     protected static final VoxelShape DOUBLE_SOUTH_SHAPE;
     protected static final VoxelShape DOUBLE_WEST_SHAPE;
@@ -67,11 +64,11 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
 
     public ExtraChestBlock(Settings settings, Supplier<BlockEntityType<? extends ExtraChestEntity>> supplier) {
         super(settings, supplier);
-        this.setDefaultState((BlockState)((BlockState)((BlockState)((BlockState)this.stateManager.getDefaultState()).with(FACING, Direction.NORTH)).with(CHEST_TYPE, ChestType.SINGLE)).with(WATERLOGGED, false));
+        this.setDefaultState(this.stateManager.getDefaultState().with(FACING, Direction.NORTH).with(CHEST_TYPE, ChestType.SINGLE).with(WATERLOGGED, false));
     }
 
     public static DoubleBlockProperties.Type getDoubleBlockType(BlockState state) {
-        ChestType chestType = (ChestType)state.get(CHEST_TYPE);
+        ChestType chestType = state.get(CHEST_TYPE);
         if (chestType == ChestType.SINGLE) {
             return DoubleBlockProperties.Type.SINGLE;
         } else {
@@ -84,17 +81,17 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
     }
 
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        if ((Boolean)state.get(WATERLOGGED)) {
+        if (state.get(WATERLOGGED)) {
             world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
         }
 
         if (neighborState.isOf(this) && direction.getAxis().isHorizontal()) {
-            ChestType chestType = (ChestType)neighborState.get(CHEST_TYPE);
+            ChestType chestType = neighborState.get(CHEST_TYPE);
             if (state.get(CHEST_TYPE) == ChestType.SINGLE && chestType != ChestType.SINGLE && state.get(FACING) == neighborState.get(FACING) && getFacing(neighborState) == direction.getOpposite()) {
-                return (BlockState)state.with(CHEST_TYPE, chestType.getOpposite());
+                return state.with(CHEST_TYPE, chestType.getOpposite());
             }
         } else if (getFacing(state) == direction) {
-            return (BlockState)state.with(CHEST_TYPE, ChestType.SINGLE);
+            return state.with(CHEST_TYPE, ChestType.SINGLE);
         }
 
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
@@ -114,7 +111,7 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
     }
 
     public static Direction getFacing(BlockState state) {
-        Direction direction = (Direction)state.get(FACING);
+        Direction direction = state.get(FACING);
         return state.get(CHEST_TYPE) == ChestType.LEFT ? direction.rotateYClockwise() : direction.rotateYCounterclockwise();
     }
 
@@ -139,11 +136,11 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
                 chestType = ChestType.RIGHT;
             }
         }
-        return (BlockState)((BlockState)((BlockState)this.getDefaultState().with(FACING, direction)).with(CHEST_TYPE, chestType)).with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
+        return this.getDefaultState().with(FACING, direction).with(CHEST_TYPE, chestType).with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
     }
 
     public FluidState getFluidState(BlockState state) {
-        return (Boolean)state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
     }
 
     @Nullable
@@ -152,7 +149,7 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
         /*if (!blockState.isOf(Declarer.pumpkinChestBlock) && !blockState.isOf(Declarer.christmasChestBlock)){
             return null;
         }*/
-        return blockState.isOf(this) && blockState.get(CHEST_TYPE) == ChestType.SINGLE ? (Direction)blockState.get(FACING) : null;
+        return blockState.isOf(this) && blockState.get(CHEST_TYPE) == ChestType.SINGLE ? blockState.get(FACING) : null;
     }
 
     public void onPlaced(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack itemStack) {
@@ -202,7 +199,7 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
 
     @Nullable
     public static Inventory getInventory(ExtraChestBlock block, BlockState state, World world, BlockPos pos, boolean ignoreBlocked) {
-        return (Inventory)((Optional)block.getBlockEntitySource(state, world, pos, ignoreBlocked).apply(INVENTORY_RETRIEVER)).orElse((Object)null);
+        return (Inventory)((Optional)block.getBlockEntitySource(state, world, pos, ignoreBlocked).apply(INVENTORY_RETRIEVER)).orElse(null);
     }
 
     public DoubleBlockProperties.PropertySource<? extends ExtraChestEntity> getBlockEntitySource(BlockState state, World world, BlockPos pos, boolean ignoreBlocked) {
@@ -219,7 +216,7 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
 
     @Nullable
     public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
-        return (NamedScreenHandlerFactory)((Optional)this.getBlockEntitySource(state, world, pos, false).apply(NAME_RETRIEVER)).orElse((Object)null);
+        return (NamedScreenHandlerFactory)((Optional)this.getBlockEntitySource(state, world, pos, false).apply(NAME_RETRIEVER)).orElse(null);
     }
 
     public static DoubleBlockProperties.PropertyRetriever<ExtraChestEntity, Float2FloatFunction> getAnimationProgressRetriever(final ChestAnimationProgress chestAnimationProgress) {
@@ -261,7 +258,7 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
     }
 
     private static boolean hasOcelotOnTop(WorldAccess world, BlockPos pos) {
-        List<CatEntity> list = world.getNonSpectatingEntities(CatEntity.class, new Box((double)pos.getX(), (double)(pos.getY() + 1), (double)pos.getZ(), (double)(pos.getX() + 1), (double)(pos.getY() + 2), (double)(pos.getZ() + 1)));
+        List<CatEntity> list = world.getNonSpectatingEntities(CatEntity.class, new Box(pos.getX(), pos.getY() + 1, pos.getZ(), pos.getX() + 1, pos.getY() + 2, pos.getZ() + 1));
         if (!list.isEmpty()) {
 
             for (CatEntity catEntity : list) {
@@ -283,11 +280,11 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
     }
 
     public BlockState rotate(BlockState state, BlockRotation rotation) {
-        return (BlockState)state.with(FACING, rotation.rotate((Direction)state.get(FACING)));
+        return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
     public BlockState mirror(BlockState state, BlockMirror mirror) {
-        return state.rotate(mirror.getRotation((Direction)state.get(FACING)));
+        return state.rotate(mirror.getRotation(state.get(FACING)));
     }
 
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
@@ -337,7 +334,7 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
                         if (ExtraChestEntity.checkUnlocked(playerEntity) && ExtraChestEntity2.checkUnlocked(playerEntity)) {
                             ExtraChestEntity.checkLootInteraction(playerInventory.player);
                             ExtraChestEntity2.checkLootInteraction(playerInventory.player);
-                            ScreenHandler screenHandler =  GenericContainerScreenHandler.createGeneric9x6(i,playerInventory,inventory);;//todo make this a function that children can override
+                            ScreenHandler screenHandler =  GenericContainerScreenHandler.createGeneric9x6(i,playerInventory,inventory);//todo make this a function that children can override
                             /*if (ExtraChestEntity instanceof IronChestEntity || ExtraChestEntity instanceof IronTrappedChestEntity){
                                 screenHandler =  new GoldScreenHandler(i, playerInventory, inventory,12,9);
                             } else if (ExtraChestEntity instanceof GoldChestEntity || ExtraChestEntity instanceof GoldTrappedChestEntity){
@@ -379,7 +376,7 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
                             } else if (ExtraChestEntity2 instanceof DirtChestEntity || ExtraChestEntity2 instanceof DirtTrappedChestEntity){
                                 translatableText = new TranslatableText("container.dirtchestdouble");
                             }*/
-                            return (Text)(ExtraChestEntity2.hasCustomName() ? ExtraChestEntity2.getDisplayName() : translatableText);
+                            return ExtraChestEntity2.hasCustomName() ? ExtraChestEntity2.getDisplayName() : translatableText;
                         }
                     }
                 });

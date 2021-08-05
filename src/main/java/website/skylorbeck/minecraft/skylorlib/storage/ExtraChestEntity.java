@@ -27,14 +27,15 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public abstract class ExtraChestEntity extends ChestBlockEntity implements ChestAnimationProgress {
+    public static String MODID = "skylorlib";
     protected DefaultedList<ItemStack> inventory;
     private final ViewerCountManager stateManager;
     private final ChestLidAnimator lidAnimator;
-    public static Identifier identifier = new Identifier("textures/atlas/chest.png");
-    public static String base = "tokenablefurnaces:entity/chest/";
-    public String addition;
-    public boolean trapped;
-    public int size;
+    private final static Identifier identifier = new Identifier("textures/atlas/chest.png");
+    private static final String base = MODID + ":entity/chest/";
+    private final String addition;
+    private final boolean trapped;
+    private final int size;
 
 
     protected ExtraChestEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState,int size,String type, boolean trapped) {

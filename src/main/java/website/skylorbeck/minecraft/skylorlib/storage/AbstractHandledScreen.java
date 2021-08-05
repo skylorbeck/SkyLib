@@ -12,7 +12,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 
 public abstract class AbstractHandledScreen extends HandledScreen<ScreenHandler> {
-    public static final Identifier TEXTURE = new Identifier("tokenablefurnaces", "textures/gui/iron.png");
+    public static final Identifier TEXTURE = new Identifier("minecraft", "textures/gui/generic_54.png");
     public ChestTabWidget tabWidget;
 
     private int zOffset;
