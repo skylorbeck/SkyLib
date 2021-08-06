@@ -52,6 +52,7 @@ public abstract class AbstractExtraFurnaceBlockEntity extends LockableContainerB
     protected final PropertyDelegate propertyDelegate;
     private final Object2IntOpenHashMap<Identifier> recipesUsed;
     protected final RecipeType<? extends AbstractCookingRecipe> recipeType;
+    private float multiplier = 1.0f;
 
     @Override
     public Text getContainerName() {
@@ -61,8 +62,9 @@ public abstract class AbstractExtraFurnaceBlockEntity extends LockableContainerB
     protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
         return new FurnaceScreenHandler(syncId, playerInventory, this, this.propertyDelegate);
     }
-    protected AbstractExtraFurnaceBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state, RecipeType<? extends AbstractCookingRecipe> recipeType) {
+    protected AbstractExtraFurnaceBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state, RecipeType<? extends AbstractCookingRecipe> recipeType,float multiplier) {
         super(blockEntityType,pos,state);
+        this.multiplier = multiplier;
         this.inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
         this.propertyDelegate = new PropertyDelegate() {
             public int get(int index) {
@@ -155,23 +157,7 @@ public abstract class AbstractExtraFurnaceBlockEntity extends LockableContainerB
             if (blockEntity.isBurning() && canAcceptRecipeOutput(recipe, blockEntity.inventory, i)) {
                 ++blockEntity.cookTime;
                 if (blockEntity.cookTime == blockEntity.cookTimeTotal) {
-                    blockEntity.cookTime = 0;
-                    /*boolean iron = blockEntity instanceof IronExtraFurnaceEntity || blockEntity instanceof IronExtraSmokerEntity || blockEntity instanceof IronExtraBlastEntity;
-                    boolean gold = blockEntity instanceof GoldExtraFurnaceEntity || blockEntity instanceof GoldExtraSmokerEntity || blockEntity instanceof GoldExtraBlastEntity;
-                    boolean diamond = blockEntity instanceof DiamondExtraFurnaceEntity || blockEntity instanceof DiamondExtraSmokerEntity || blockEntity instanceof DiamondExtraBlastEntity;
-                    boolean amethyst = blockEntity instanceof AmethystExtraFurnaceEntity || blockEntity instanceof AmethystExtraSmokerEntity || blockEntity instanceof AmethystExtraBlastEntity;
-
-                    if (iron){
-                        blockEntity.cookTimeTotal = (int) (getCookTime(world, blockEntity.recipeType, blockEntity)*0.8);
-                    } else if (gold){
-                        blockEntity.cookTimeTotal = (int) (getCookTime(world, blockEntity.recipeType, blockEntity)*0.6);
-                    } else if (diamond){
-                        blockEntity.cookTimeTotal = (int) (getCookTime(world, blockEntity.recipeType, blockEntity)*0.4);
-                    } else if (amethyst){
-                        blockEntity.cookTimeTotal = (int) (getCookTime(world, blockEntity.recipeType, blockEntity)*0.2);
-                    } else {
-                        blockEntity.cookTimeTotal = getCookTime(world, blockEntity.recipeType, blockEntity);
-                    }*/
+                    blockEntity.cookTime = (int) (getCookTime(world,blockEntity.recipeType,blockEntity)* blockEntity.multiplier);
                     if (craftRecipe(recipe, blockEntity.inventory, i)) {
                         blockEntity.setLastRecipe(recipe);
                     }
@@ -242,11 +228,7 @@ public abstract class AbstractExtraFurnaceBlockEntity extends LockableContainerB
     }
 
     protected int getFuelTime(ItemStack fuel) {
-        if (fuel.isEmpty()) {
-            return 0;
-        } else {
-            return FuelRegistry.INSTANCE.get(fuel.getItem());
-        }
+        return fuel.isEmpty() ? 0 : FuelRegistry.INSTANCE.get(fuel.getItem());
     }
 
     protected static int getCookTime(World world, RecipeType<? extends AbstractCookingRecipe> recipeType, Inventory inventory) {
@@ -321,23 +303,7 @@ public abstract class AbstractExtraFurnaceBlockEntity extends LockableContainerB
 
         if (slot == 0 && !bl) {
             assert this.world != null;
-            BlockEntity blockEntity = world.getBlockEntity(pos);
-          /*  boolean iron = blockEntity instanceof IronExtraFurnaceEntity || blockEntity instanceof IronExtraSmokerEntity || blockEntity instanceof IronExtraBlastEntity;
-            boolean gold = blockEntity instanceof GoldExtraFurnaceEntity || blockEntity instanceof GoldExtraSmokerEntity || blockEntity instanceof GoldExtraBlastEntity;
-            boolean diamond = blockEntity instanceof DiamondExtraFurnaceEntity || blockEntity instanceof DiamondExtraSmokerEntity || blockEntity instanceof DiamondExtraBlastEntity;
-            boolean amethyst = blockEntity instanceof AmethystExtraFurnaceEntity || blockEntity instanceof AmethystExtraSmokerEntity || blockEntity instanceof AmethystExtraBlastEntity;
-            if (iron){
-                this.cookTimeTotal = (int) (getCookTime(world, this.recipeType, this)*0.8);
-            } else if (gold){
-                this.cookTimeTotal = (int) (getCookTime(world, this.recipeType, this)*0.6);
-            } else if (diamond){
-                this.cookTimeTotal = (int) (getCookTime(world, this.recipeType, this)*0.4);
-            } else if (amethyst){
-                this.cookTimeTotal = (int) (getCookTime(world, this.recipeType, this)*0.2);
-            } else {
-                this.cookTimeTotal = getCookTime(world, this.recipeType, this);
-            }
-            */
+            this.cookTimeTotal = (int) (getCookTime(world,this.recipeType,this)* this.multiplier);
             this.cookTime = 0;
             this.markDirty();
         }
@@ -448,5 +414,13 @@ public abstract class AbstractExtraFurnaceBlockEntity extends LockableContainerB
         for (int i = 0; i < list.size(); i++) {
             this.inventory.set(i,list.get(i));
         }
+    }
+
+    public float getMultiplier() {
+        return multiplier;
+    }
+
+    public void setMultiplier(float multiplier) {
+        this.multiplier = multiplier;
     }
 }

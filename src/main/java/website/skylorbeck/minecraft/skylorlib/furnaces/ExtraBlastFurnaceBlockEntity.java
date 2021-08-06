@@ -15,7 +15,7 @@ import website.skylorbeck.minecraft.skylorlib.Declarer;
 
 public class ExtraBlastFurnaceBlockEntity extends AbstractExtraFurnaceBlockEntity {//copy of vanilla code
     public ExtraBlastFurnaceBlockEntity(BlockPos pos, BlockState state) {
-        super(Declarer.EXTRA_BLAST_FURNACE_ENTITY,pos,state,RecipeType.BLASTING);
+        super(Declarer.EXTRA_BLAST_FURNACE_ENTITY,pos,state,RecipeType.BLASTING,1f);
     }
     public static <T extends BlockEntity> void tick(World world, BlockPos blockPos, BlockState state, T t) {
         AbstractExtraFurnaceBlockEntity.tick(world,blockPos,state, (AbstractExtraFurnaceBlockEntity) t);

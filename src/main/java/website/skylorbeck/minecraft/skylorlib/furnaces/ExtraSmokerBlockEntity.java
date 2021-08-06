@@ -15,7 +15,7 @@ import website.skylorbeck.minecraft.skylorlib.Declarer;
 
 public class ExtraSmokerBlockEntity extends AbstractExtraFurnaceBlockEntity {//copy of vanilla
     public ExtraSmokerBlockEntity(BlockPos pos, BlockState state) {
-        super(Declarer.EXTRA_SMOKER_FURNACE_ENTITY,pos,state, RecipeType.SMOKING);
+        super(Declarer.EXTRA_SMOKER_FURNACE_ENTITY,pos,state, RecipeType.SMOKING,1f);
     }
     public static <T extends BlockEntity> void tick(World world, BlockPos blockPos, BlockState state, T t) {
         AbstractExtraFurnaceBlockEntity.tick(world,blockPos,state, (AbstractExtraFurnaceBlockEntity) t);
