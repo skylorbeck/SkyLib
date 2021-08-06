@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.entity.ExperienceOrbEntity;

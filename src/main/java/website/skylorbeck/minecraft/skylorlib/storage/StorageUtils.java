@@ -1,7 +1,5 @@
 package website.skylorbeck.minecraft.skylorlib.storage;
 
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
