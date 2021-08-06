@@ -4,7 +4,8 @@
   "package": "website.skylorbeck.minecraft.skylorlib.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "SlotAccessor"
+    "SlotAccessor",
+    "XPFixMixin"
   ],
   "client": [
   ],
