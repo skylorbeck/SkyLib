@@ -10,7 +10,5 @@ public class SkylorLib implements ModInitializer {
 }
 //todo
 // furnaces
-// shulkers
-// barrels
 // hoppers
 // bundles

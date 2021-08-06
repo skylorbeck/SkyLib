@@ -47,9 +47,10 @@ public abstract class ExtraShulkerEntity extends LootableContainerBlockEntity im
     private static String base = MODID + ":entity/shulker/";
     private final String addition;
 
-    public ExtraShulkerEntity(BlockEntityType blockEntityType, @Nullable DyeColor color, BlockPos pos, BlockState state,String type,String MODID) {
+    public ExtraShulkerEntity(BlockEntityType blockEntityType, @Nullable DyeColor color, BlockPos pos, BlockState state,int size,String type,String MODID) {
         super(blockEntityType, pos, state);
-        this.inventory = DefaultedList.ofSize(27, ItemStack.EMPTY);
+        this.inventory = DefaultedList.ofSize(size, ItemStack.EMPTY);
+        this.AVAILABLE_SLOTS = IntStream.range(0, size).toArray();
         this.animationStage = AnimationStage.CLOSED;
         this.cachedColor = color;
         ExtraShulkerEntity.MODID = MODID;
@@ -59,9 +60,10 @@ public abstract class ExtraShulkerEntity extends LootableContainerBlockEntity im
 
     }
 
-    public ExtraShulkerEntity(BlockEntityType blockEntityType,BlockPos pos, BlockState state,String type,String MODID) {
+    public ExtraShulkerEntity(BlockEntityType blockEntityType,BlockPos pos, BlockState state,int size,String type,String MODID) {
         super(blockEntityType, pos, state);
-        this.inventory = DefaultedList.ofSize(27, ItemStack.EMPTY);
+        this.inventory = DefaultedList.ofSize(size, ItemStack.EMPTY);
+        this.AVAILABLE_SLOTS = IntStream.range(0, size).toArray();
         this.animationStage = AnimationStage.CLOSED;
         this.cachedColor = ShulkerBoxBlock.getColor(state.getBlock());
         ExtraShulkerEntity.MODID = MODID;

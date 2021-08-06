@@ -36,7 +36,6 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
     private static String base = MODID + ":entity/chest/";
     private final String addition;
     private final boolean trapped;
-    private final int size;
     public final boolean singleLatch;
 
 
@@ -45,7 +44,6 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
         this.addition = type;
         this.trapped= trapped;
         this.singleLatch = singleLatch;
-        this.size = size;
         ExtraChestEntity.MODID = MODID;
         base = MODID + ":entity/chest/";
         this.inventory = DefaultedList.ofSize(size, ItemStack.EMPTY);
@@ -88,7 +86,7 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
     }
 
     public int size() {
-        return size;
+        return this.inventory.size();
     }
 
     public void readNbt(NbtCompound nbt) {
