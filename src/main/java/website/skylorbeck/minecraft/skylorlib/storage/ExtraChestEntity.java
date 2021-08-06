@@ -32,7 +32,7 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
     private final ViewerCountManager stateManager;
     private final ChestLidAnimator lidAnimator;
     private final static Identifier identifier = new Identifier("textures/atlas/chest.png");
-    private static final String base = MODID + ":entity/chest/";
+    private static String base = MODID + ":entity/chest/";
     private final String addition;
     private final boolean trapped;
     private final int size;
@@ -46,6 +46,7 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
         this.singleLatch = singleLatch;
         this.size = size;
         ExtraChestEntity.MODID = MODID;
+        base = MODID + ":entity/chest/";
         this.inventory = DefaultedList.ofSize(size, ItemStack.EMPTY);
         this.stateManager = new ViewerCountManager() {
 

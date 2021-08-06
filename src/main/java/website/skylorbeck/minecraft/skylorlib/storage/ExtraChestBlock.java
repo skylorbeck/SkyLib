@@ -116,7 +116,6 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
     }
 
     public BlockState getPlacementState(ItemPlacementContext ctx) {
-//        return this.getDefaultState().with(FACING, ctx.getPlayerFacing().getOpposite()).with(CHEST_TYPE,ChestType.SINGLE).with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
         ChestType chestType = ChestType.SINGLE;
         Direction direction = ctx.getPlayerFacing().getOpposite();
         FluidState fluidState = ctx.getWorld().getFluidState(ctx.getBlockPos());
@@ -146,9 +145,6 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
     @Nullable
     private Direction getNeighborChestDirection(ItemPlacementContext ctx, Direction dir) {
         BlockState blockState = ctx.getWorld().getBlockState(ctx.getBlockPos().offset(dir));
-        /*if (!blockState.isOf(Declarer.pumpkinChestBlock) && !blockState.isOf(Declarer.christmasChestBlock)){
-            return null;
-        }*/
         return blockState.isOf(this) && blockState.get(CHEST_TYPE) == ChestType.SINGLE ? blockState.get(FACING) : null;
     }
 
@@ -240,7 +236,6 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
 
     @Override
     public abstract BlockEntity createBlockEntity(BlockPos pos, BlockState state);
-    //        return new ExtraChestEntity(pos, state);
 
 
     @Nullable

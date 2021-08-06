@@ -101,7 +101,7 @@ public class ExtraChestEntityRenderer<T extends BlockEntity & ChestAnimationProg
                 propertySource2 = DoubleBlockProperties.PropertyRetriever::getFallback;
             }
 //            float g = ((Float2FloatFunction) propertySource2.apply(ExtraChestBlock.getAnimationProgressRetriever(entity))).get(tickDelta);
-            float g = ((ExtraChestEntity)entity).getAnimationProgress(tickDelta);
+            float g = entity.getAnimationProgress(tickDelta);
             g = 1.0F - g;
             g = 1.0F - g * g * g;
             int i = ((Int2IntFunction) propertySource2.apply(new LightmapCoordinatesRetriever())).applyAsInt(light);
