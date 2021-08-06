@@ -156,8 +156,9 @@ public abstract class AbstractExtraFurnaceBlockEntity extends LockableContainerB
 
             if (blockEntity.isBurning() && canAcceptRecipeOutput(recipe, blockEntity.inventory, i)) {
                 ++blockEntity.cookTime;
-                if (blockEntity.cookTime == blockEntity.cookTimeTotal) {
-                    blockEntity.cookTime = (int) (getCookTime(world,blockEntity.recipeType,blockEntity)* blockEntity.multiplier);
+                if (blockEntity.cookTime >= blockEntity.cookTimeTotal) {
+                    blockEntity.cookTime = 0;
+                    blockEntity.cookTimeTotal = (int) (getCookTime(world,blockEntity.recipeType,blockEntity)* blockEntity.multiplier);
                     if (craftRecipe(recipe, blockEntity.inventory, i)) {
                         blockEntity.setLastRecipe(recipe);
                     }
