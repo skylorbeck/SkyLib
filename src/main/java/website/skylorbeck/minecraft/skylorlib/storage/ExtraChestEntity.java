@@ -17,6 +17,7 @@ import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
@@ -49,33 +50,29 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
         base = MODID + ":entity/chest/";
         this.inventory = DefaultedList.ofSize(size, ItemStack.EMPTY);
         this.stateManager = new ViewerCountManager() {
-
-            @Override
-            protected void onContainerOpen(World world, BlockPos pos, BlockState state) {
-
-            }
-
-            @Override
-            protected void onContainerClose(World world, BlockPos pos, BlockState state) {
-
-            }
-
-            @Override
-            protected void onViewerCountUpdate(World world, BlockPos pos, BlockState state, int oldViewerCount, int newViewerCount) {
-
-            }
-
-            protected boolean isPlayerViewing(PlayerEntity player) {
-                if (player.currentScreenHandler instanceof AbstractScreenHandler) {
-                    Inventory inventory = ((AbstractScreenHandler) player.currentScreenHandler).getInventory();
-                    return inventory == ExtraChestEntity.this || inventory instanceof DoubleInventory && ((DoubleInventory) inventory).isPart(ExtraChestEntity.this);
-                } else if (player.currentScreenHandler instanceof GenericContainerScreenHandler) {
-                    Inventory inventory = ((GenericContainerScreenHandler) player.currentScreenHandler).getInventory();
-                    return inventory == ExtraChestEntity.this || inventory instanceof DoubleInventory && ((DoubleInventory) inventory).isPart(ExtraChestEntity.this);
-                } else {
-                    return false;
+                protected void onContainerOpen(World world, BlockPos pos, BlockState state) {
+                    ExtraChestEntity.playSound(world, pos, state, SoundEvents.BLOCK_CHEST_OPEN);
                 }
-            }
+
+                protected void onContainerClose(World world, BlockPos pos, BlockState state) {
+                    ExtraChestEntity.playSound(world, pos, state, SoundEvents.BLOCK_CHEST_CLOSE);
+                }
+
+                protected void onViewerCountUpdate(World world, BlockPos pos, BlockState state, int oldViewerCount, int newViewerCount) {
+                    ExtraChestEntity.this.onInvOpenOrClose(world, pos, state, oldViewerCount, newViewerCount);
+                }
+
+                protected boolean isPlayerViewing(PlayerEntity player) {
+                    if (!(player.currentScreenHandler instanceof GenericContainerScreenHandler || player.currentScreenHandler instanceof AbstractScreenHandler)) {
+                        return false;
+                    } else if (player.currentScreenHandler instanceof AbstractScreenHandler) {
+                        Inventory inventory = ((AbstractScreenHandler) player.currentScreenHandler).getInventory();
+                        return inventory == ExtraChestEntity.this || inventory instanceof DoubleInventory && ((DoubleInventory) inventory).isPart(ExtraChestEntity.this);
+                    } else {
+                        Inventory inventory = ((GenericContainerScreenHandler) player.currentScreenHandler).getInventory();
+                        return inventory == ExtraChestEntity.this || inventory instanceof DoubleInventory && ((DoubleInventory) inventory).isPart(ExtraChestEntity.this);
+                    }
+                }
         };
         this.lidAnimator = new ChestLidAnimator();
     }
