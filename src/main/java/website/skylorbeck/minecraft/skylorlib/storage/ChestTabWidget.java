@@ -17,6 +17,7 @@ public class ChestTabWidget extends DrawableHelper implements Drawable, Element,
     private final int w;
     private final int h;
     private final int tabCount;
+    private int curTab = 0;
 
     public ChestTabWidget(HandledScreen<?> screen, int x, int y, int w, int h, int tabCount) {
         this.screen = screen;
@@ -76,6 +77,7 @@ public class ChestTabWidget extends DrawableHelper implements Drawable, Element,
                 }
                 tabs[i].setToggled(true);
                 ((AbstractScreenHandler) screen.getScreenHandler()).setTab(i);
+                this.curTab = i;
             }
         }
         return Element.super.mouseClicked(mouseX, mouseY, button);
@@ -129,5 +131,9 @@ public class ChestTabWidget extends DrawableHelper implements Drawable, Element,
             }
         }
         return result;
+    }
+
+    public int getCurTab() {
+        return curTab;
     }
 }

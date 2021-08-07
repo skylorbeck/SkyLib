@@ -15,6 +15,7 @@ public abstract class AbstractHandledScreen extends HandledScreen<ScreenHandler>
     public static final Identifier TEXTURE = new Identifier("minecraft", "textures/gui/container/generic_54.png");
     public ChestTabWidget tabWidget;
 
+
     private int zOffset;
 
     public AbstractHandledScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
@@ -46,7 +47,23 @@ public abstract class AbstractHandledScreen extends HandledScreen<ScreenHandler>
         super.render(matrices, mouseX, mouseY, delta);
         tabWidget.render(matrices,mouseX,mouseY,delta);
         //this is real stupid but I want my tabs to display over the chest and I can't display itemstacks without this.
-        ItemStack itemStack = this.handler.getCursorStack() ;
+        ItemStack itemStack;
+        for (int i = 0; i <tabWidget.tabs.length ; i++) {
+            itemStack = this.handler.getStacks().get(i*54);
+            if (!itemStack.isEmpty()) {
+                MatrixStack matrixStack = RenderSystem.getModelViewStack();
+                matrixStack.translate(0.0D, 0.0D, 32.0D);
+                RenderSystem.applyModelViewMatrix();
+                this.setZOffset(200);
+                this.itemRenderer.zOffset = 200.0F;
+                ChestTabClickable tab = tabWidget.tabs[i];
+                boolean flipped = i>8;
+                this.itemRenderer.renderInGuiWithOverrides(itemStack, tab.x+(flipped ? 0:tab.getWidth()/2), tab.y);
+                this.setZOffset(0);
+                this.itemRenderer.zOffset = 0.0F;
+            }
+        }
+        itemStack = this.handler.getCursorStack() ;
         if (!itemStack.isEmpty()) {
             String string = null;
             if (this.cursorDragging && this.cursorDragSlots.size() > 1) {
@@ -66,22 +83,6 @@ public abstract class AbstractHandledScreen extends HandledScreen<ScreenHandler>
             this.setZOffset(0);
             this.itemRenderer.zOffset = 0.0F;
         }
-        for (int i = 0; i <tabWidget.tabs.length ; i++) {
-            itemStack = this.handler.getStacks().get(i*54);
-            if (!itemStack.isEmpty()) {
-                MatrixStack matrixStack = RenderSystem.getModelViewStack();
-                matrixStack.translate(0.0D, 0.0D, 32.0D);
-                RenderSystem.applyModelViewMatrix();
-                this.setZOffset(200);
-                this.itemRenderer.zOffset = 200.0F;
-                ChestTabClickable tab = tabWidget.tabs[i];
-                boolean flipped = i>8;
-                this.itemRenderer.renderInGuiWithOverrides(itemStack, tab.x+(flipped ? 0:tab.getWidth()/2), tab.y);
-                this.setZOffset(0);
-                this.itemRenderer.zOffset = 0.0F;
-            }
-        }
-
         drawMouseoverTooltip(matrices, mouseX, mouseY);
     }
 
