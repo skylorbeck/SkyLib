@@ -66,6 +66,22 @@ public abstract class AbstractHandledScreen extends HandledScreen<ScreenHandler>
             this.setZOffset(0);
             this.itemRenderer.zOffset = 0.0F;
         }
+        for (int i = 0; i <tabWidget.tabs.length ; i++) {
+            itemStack = this.handler.getStacks().get(i*54);
+            if (!itemStack.isEmpty()) {
+                MatrixStack matrixStack = RenderSystem.getModelViewStack();
+                matrixStack.translate(0.0D, 0.0D, 32.0D);
+                RenderSystem.applyModelViewMatrix();
+                this.setZOffset(200);
+                this.itemRenderer.zOffset = 200.0F;
+                ChestTabClickable tab = tabWidget.tabs[i];
+                boolean flipped = i>8;
+                this.itemRenderer.renderInGuiWithOverrides(itemStack, tab.x+(flipped ? 0:tab.getWidth()/2), tab.y);
+                this.setZOffset(0);
+                this.itemRenderer.zOffset = 0.0F;
+            }
+        }
+
         drawMouseoverTooltip(matrices, mouseX, mouseY);
     }
 
