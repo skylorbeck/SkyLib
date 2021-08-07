@@ -9,6 +9,9 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 import website.skylorbeck.minecraft.skylorlib.mixin.SlotAccessor;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public abstract class AbstractScreenHandler extends ScreenHandler {
     private final Inventory inventory;
     private final int rows;
