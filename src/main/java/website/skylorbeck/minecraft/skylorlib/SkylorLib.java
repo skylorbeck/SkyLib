@@ -9,4 +9,3 @@ public class SkylorLib implements ModInitializer {
     }
 }
 //todo
-// bundles
