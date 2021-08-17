@@ -6,5 +6,6 @@
   "block.skylorlib.compressed.quintuple":"59,049 Blocks",
   "block.skylorlib.compressed.sextuple":"531,441 Blocks",
   "block.skylorlib.compressed.septuple":"4,782,969 Blocks",
-  "block.skylorlib.compressed.octuple":"43,046,721 Blocks"
+  "block.skylorlib.compressed.octuple":"43,046,721 Blocks",
+  "block.skylorlib.compressed.nonuple":"387,420,489 Blocks"
 }
