@@ -29,7 +29,7 @@ import net.minecraft.world.World;
 
 public abstract class ExtraChestEntity extends ChestBlockEntity implements ChestAnimationProgress {
     private static String MODID = "skylorlib";
-    protected DefaultedList<ItemStack> inventory;
+    public DefaultedList<ItemStack> inventory;
     private final ViewerCountManager stateManager;
     private final ChestLidAnimator lidAnimator;
     private final static Identifier identifier = new Identifier("textures/atlas/chest.png");
