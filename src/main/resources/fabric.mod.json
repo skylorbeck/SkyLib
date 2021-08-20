@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "skylorlib",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "name": "SkyLib",
   "description": "A library designed for use with all mods by Skylor Beck",
   "authors": [

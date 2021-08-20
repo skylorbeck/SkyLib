@@ -110,8 +110,7 @@ public abstract class ExtraShulkerBlock extends BlockWithEntity {
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof ExtraShulkerEntity ExtraShulkerEntity) {
-            if (!world.isClient && player.isCreative() && !ExtraShulkerEntity.isEmpty()) {
-//                ItemStack itemStack = getItemStack(this.getColor());
+            if (!world.isClient && !ExtraShulkerEntity.isEmpty()) {
                 ItemStack itemStack = this.asItem().getDefaultStack();
                 NbtCompound nbtCompound = ExtraShulkerEntity.writeInventoryNbt(new NbtCompound());
                 if (!nbtCompound.isEmpty()) {
@@ -125,8 +124,6 @@ public abstract class ExtraShulkerBlock extends BlockWithEntity {
                 ItemEntity itemEntity = new ItemEntity(world, (double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, itemStack);
                 itemEntity.setToDefaultPickupDelay();
                 world.spawnEntity(itemEntity);
-            } else {
-                ExtraShulkerEntity.checkLootInteraction(player);
             }
         }
 
