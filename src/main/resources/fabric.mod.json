@@ -10,10 +10,11 @@
   "contact": {
     "homepage": "https://www.skylorbeck.website",
     "repo": "https://github.com/Skylortrexler/SkylorLib",
+    "sources": "https://github.com/Skylortrexler/SkylorLib",
     "issues": "https://github.com/Skylortrexler/SkylorLib/issues"
   },
   "license": "LGPL-3.0",
-  "icon": "assets/SkylorLib/icon.png",
+  "icon": "assets/skylorlib/icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
