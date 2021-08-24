@@ -2,7 +2,6 @@ package website.skylorbeck.minecraft.skylorlib.storage;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.block.piston.PistonBehavior;
@@ -65,7 +64,7 @@ public abstract class ExtraShulkerEntity extends LootableContainerBlockEntity im
         this.inventory = DefaultedList.ofSize(size, ItemStack.EMPTY);
         this.AVAILABLE_SLOTS = IntStream.range(0, size).toArray();
         this.animationStage = AnimationStage.CLOSED;
-        this.cachedColor = ShulkerBoxBlock.getColor(state.getBlock());
+        this.cachedColor = ExtraShulkerBlock.getColor(state.getBlock());
         ExtraShulkerEntity.MODID = MODID;
         this.addition = type;
         base = MODID + ":entity/shulker/";
@@ -106,12 +105,12 @@ public abstract class ExtraShulkerEntity extends LootableContainerBlockEntity im
     }
 
     public Box getBoundingBox(BlockState state) {
-        return ShulkerEntity.method_33346((Direction)state.get(ShulkerBoxBlock.FACING), 0.5F * this.getAnimationProgress(1.0F));
+        return ShulkerEntity.method_33346((Direction)state.get(ExtraShulkerBlock.FACING), 0.5F * this.getAnimationProgress(1.0F));
     }
 
     private void pushEntities(World world, BlockPos pos, BlockState state) {
-        if (state.getBlock() instanceof ShulkerBoxBlock) {
-            Direction direction = (Direction)state.get(ShulkerBoxBlock.FACING);
+        if (state.getBlock() instanceof ExtraShulkerBlock) {
+            Direction direction = (Direction)state.get(ExtraShulkerBlock.FACING);
             Box box = ShulkerEntity.method_33347(direction, this.prevAnimationProgress, this.animationProgress).offset(pos);
             List<Entity> list = world.getOtherEntities((Entity)null, box);
             if (!list.isEmpty()) {
@@ -227,7 +226,7 @@ public abstract class ExtraShulkerEntity extends LootableContainerBlockEntity im
     }
 
     public boolean canInsert(int slot, ItemStack stack, @Nullable Direction dir) {
-        return !(Block.getBlockFromItem(stack.getItem()) instanceof ShulkerBoxBlock);
+        return !(Block.getBlockFromItem(stack.getItem()) instanceof ExtraShulkerBlock);
     }
 
     public boolean canExtract(int slot, ItemStack stack, Direction dir) {

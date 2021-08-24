@@ -110,7 +110,7 @@ public abstract class ExtraShulkerBlock extends BlockWithEntity {
     public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof ExtraShulkerEntity ExtraShulkerEntity) {
-            if (!world.isClient && !ExtraShulkerEntity.isEmpty()) {
+            if (!world.isClient ) {
                 ItemStack itemStack = this.asItem().getDefaultStack();
                 NbtCompound nbtCompound = ExtraShulkerEntity.writeInventoryNbt(new NbtCompound());
                 if (!nbtCompound.isEmpty()) {
