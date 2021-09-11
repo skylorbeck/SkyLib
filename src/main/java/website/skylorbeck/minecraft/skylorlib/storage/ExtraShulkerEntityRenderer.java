@@ -29,8 +29,8 @@ public class ExtraShulkerEntityRenderer<T extends BlockEntity> implements BlockE
         Direction direction = Direction.UP;
         if (ExtraShulkerEntity.hasWorld()) {
             BlockState blockState = ExtraShulkerEntity.getWorld().getBlockState(ExtraShulkerEntity.getPos());
-            if (blockState.getBlock() instanceof ShulkerBoxBlock) {
-                direction = (Direction)blockState.get(ShulkerBoxBlock.FACING);
+            if (blockState.getBlock() instanceof ExtraShulkerBlock) {
+                direction = (Direction)blockState.get(ExtraShulkerBlock.FACING);
             }
         }
 

@@ -282,11 +282,8 @@ public abstract class ExtraShulkerBlock extends BlockWithEntity {
         return state.rotate(mirror.getRotation((Direction)state.get(FACING)));
     }
 
-
     static {
         FACING = FacingBlock.FACING;
         CONTENTS = new Identifier("contents");
     }
-
-
 }
