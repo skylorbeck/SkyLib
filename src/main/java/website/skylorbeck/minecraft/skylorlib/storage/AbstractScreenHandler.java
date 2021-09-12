@@ -37,26 +37,7 @@ public abstract class AbstractScreenHandler extends ScreenHandler {
             } else if (this.width == 2) {
                 this.addSlot(new Slot(inventory, 0, 71, 18));
                 this.addSlot(new Slot(inventory, 1, 89, 18));
-            }/* else if (this.width == 3) {//unused terrible garbage for potential dirt chest upgrades
-                for (int j = 0; j < 4; j++) {
-                    this.addSlot(new Slot(inventory, j, 53+(j*18), 18));
-                }
-            } else if (this.width == 8) {
-                for (int j = 0; j < 8; j++) {
-                    this.addSlot(new Slot(inventory, j, 17+(j*18), 18));
-                }
-            } else if (this.width == 9) {
-                for (int j = 0; j < 9; j++) {
-                    this.addSlot(new Slot(inventory, j, 8+(j*18), 18));
-                }
-            } else if (this.width == 18) {
-                for (int j = 0; j < 9; j++) {
-                    this.addSlot(new Slot(inventory, j, 8+(j*18), 18));
-                }
-                for (int j = 0; j < 9; j++) {
-                    this.addSlot(new Slot(inventory, j+9, 8+(j*18), 36));
-                }
-            }*/
+            }
             for (n = 0; n < 3; ++n) {
                 for (m = 0; m < 9; ++m) {
                     this.addSlot(new Slot(playerInventory, m + n * 9 + 9, 8 + m * 18, 14 + n * 18 + i));
