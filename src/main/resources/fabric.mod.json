@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "skylorlib",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "name": "SkyLib",
   "description": "A library designed for use with all mods by Skylor Beck",
   "authors": [
@@ -30,6 +30,6 @@
   "depends": {
     "fabricloader": ">=0.11.6",
     "fabric": "*",
-    "minecraft": "1.17.1"
+    "minecraft": "1.18.1"
   }
 }

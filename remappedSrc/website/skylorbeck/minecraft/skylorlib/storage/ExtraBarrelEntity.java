@@ -57,11 +57,13 @@ public abstract class ExtraBarrelEntity  extends LootableContainerBlockEntity {
     }
 
 
-    public void writeNbt(NbtCompound nbt) {
+    public NbtCompound writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         if (!this.serializeLootTable(nbt)) {
             StorageUtils.writeNbt(nbt, this.inventory);
         }
+
+        return nbt;
     }
 
     public void readNbt(NbtCompound nbt) {

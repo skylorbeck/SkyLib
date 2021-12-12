@@ -114,7 +114,7 @@ public abstract class AbstractExtraFurnaceBlockEntity extends LockableContainerB
 
     }
     @Override
-    public void writeNbt(NbtCompound tag) {
+    public NbtCompound writeNbt(NbtCompound tag) {
         super.writeNbt(tag);
         tag.putShort("BurnTime", (short)this.burnTime);
         tag.putShort("CookTime", (short)this.cookTime);
@@ -123,6 +123,7 @@ public abstract class AbstractExtraFurnaceBlockEntity extends LockableContainerB
         NbtCompound compoundTag = new NbtCompound();
         this.recipesUsed.forEach((identifier, integer) -> compoundTag.putInt(identifier.toString(), integer));
         tag.put("RecipesUsed", compoundTag);
+        return tag;
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, AbstractExtraFurnaceBlockEntity blockEntity) {

@@ -57,13 +57,14 @@ public abstract class ExtraHopperEntity extends LootableContainerBlockEntity imp
         this.transferCooldown = nbt.getInt("TransferCooldown");
     }
 
-    public void writeNbt(NbtCompound nbt) {
+    public NbtCompound writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         if (!this.serializeLootTable(nbt)) {
             Inventories.writeNbt(nbt, this.inventory);
         }
 
         nbt.putInt("TransferCooldown", this.transferCooldown);
+        return nbt;
     }
 
     public int size() {

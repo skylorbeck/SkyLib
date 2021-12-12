@@ -98,11 +98,13 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
 
     }
 
-    public void writeNbt(NbtCompound nbt) {
+    public NbtCompound writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         if (!this.serializeLootTable(nbt)) {
             StorageUtils.writeNbt(nbt,this.inventory);
         }
+
+        return nbt;
     }
 
     public static void clientTick(World world, BlockPos pos, BlockState state, ExtraChestEntity blockEntity) {

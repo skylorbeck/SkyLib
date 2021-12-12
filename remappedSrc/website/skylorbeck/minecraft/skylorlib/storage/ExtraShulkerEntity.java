@@ -189,9 +189,9 @@ public abstract class ExtraShulkerEntity extends LootableContainerBlockEntity im
         this.readInventoryNbt(nbt);
     }
 
-    public void writeNbt(NbtCompound nbt) {
+    public NbtCompound writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
-        this.writeInventoryNbt(nbt);
+        return this.writeInventoryNbt(nbt);
     }
 
     public void readInventoryNbt(NbtCompound nbt) {
