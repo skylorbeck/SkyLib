@@ -8,6 +8,7 @@
     "XPFixMixin"
   ],
   "client": [
+    "CapeMixin"
   ],
   "injectors": {
     "defaultRequire": 1
