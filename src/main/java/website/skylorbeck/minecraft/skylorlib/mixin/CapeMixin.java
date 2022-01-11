@@ -20,7 +20,7 @@ public class CapeMixin {
         String name = ((PlayerListEntry)(Object)this).getProfile().getName().toLowerCase(Locale.ROOT);
         if (name.equals("skylor")){
             cir.setReturnValue(new Identifier("skylorlib","textures/skylorscape.png"));
-        } else if (name.equals("pendragon1393")){
+        } else if (name.equals("victoria_1393")){
             cir.setReturnValue(new Identifier("skylorlib","textures/vscape.png"));
         }
     }
