@@ -7,6 +7,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.Direction;
+import org.jetbrains.annotations.Nullable;
 
 public class StorageUtils {
     public static void readNbt(NbtCompound nbt, DefaultedList<ItemStack> stacks) {
@@ -56,26 +57,21 @@ public class StorageUtils {
         return nbt;
     }
 
-    public static ItemStack transfer(Inventory to, ItemStack stack, int slot, Direction dir) {
+
+    public static void transfer(Inventory to, ItemStack stack, int slot, @Nullable Direction side) {
         ItemStack itemStack = to.getStack(slot);
-        if (canInsert(to, stack, slot, dir)) {
-            int j;
-            boolean bl = false;
+        if (StorageUtils.canInsert(to, stack, slot, side)) {
             if (itemStack.isEmpty()) {
                 to.setStack(slot, stack);
                 stack = ItemStack.EMPTY;
-                bl = true;
-            } else if (canMergeItems(itemStack, stack)) {
+                to.markDirty();
+            } else if (StorageUtils.canMergeItems(itemStack, stack)) {
                 int i = stack.getMaxCount() - itemStack.getCount();
-                j = Math.min(stack.getCount(), i);
+                int j = Math.min(stack.getCount(), i);
                 stack.decrement(j);
                 itemStack.increment(j);
             }
-            if (bl) {
-                to.markDirty();
-            }
         }
-        return stack;
     }
     public static boolean canInsert(Inventory inventory, ItemStack stack, int slot, Direction dir) {
         if (!inventory.isValid(slot, stack)) {
@@ -90,7 +86,7 @@ public class StorageUtils {
         if (first.getDamage() != second.getDamage()) {
             return false;
         }
-        if (first.getCount() > first.getMaxCount()) {
+        if (first.getCount() + second.getCount() > first.getMaxCount()) {
             return false;
         }
         return ItemStack.areNbtEqual(first, second);
