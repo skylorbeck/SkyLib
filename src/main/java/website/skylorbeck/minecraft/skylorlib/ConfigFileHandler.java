@@ -9,7 +9,13 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class ConfigFileHandler {
-
+    /**
+     * Attempts to load a config file from the given path, inside the /config/ folder. If the file does not exist, it will be created with the default values from obj.
+     * @param path The path to the config file, inside the /config/ folder.
+     * @param obj The structure of the config file, with default/fallbacj values.
+     * @return A copy of the config file, with the values loaded from the config. If no config file exists, a copy of the default values will be returned.
+     * @throws IOException If the file could not be read or written. This should never happen.
+     */
     public static <T> T initConfigFile(String path,Object obj) throws IOException {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();

@@ -9,8 +9,15 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.util.ArrayList;
-
 public class DynamicRecipeLoader {
+    /**
+     * Creates a shapeless recipe with and arraylist of items/tags
+     * @param items the items/tags to be used in the recipe
+     * @param type true = tag, false = item. Must match the size of items
+     * @param output the resulting item reference.
+     * @param outputCount the amount of the resulting item
+     * @return the recipe json to be stored statically on the client/server
+     */
     public static JsonObject createShapelessRecipeJson(ArrayList<Identifier> items, ArrayList<Boolean> type, Identifier output, int outputCount) {
         JsonObject json = new JsonObject();
         json.addProperty("type", "minecraft:crafting_shapeless");
@@ -32,11 +39,15 @@ public class DynamicRecipeLoader {
         return json;
     }
 
-    public enum furnaceTypes{
-        smelting,
-        smoking,
-        blasting
-    }
+    /**
+     * Creates a smelting/blasting/cooking recipe with an item
+     * @param item the item/tag to be used in the recipe
+     * @param output the resulting item reference.
+     * @param experience the experience gained from this recipe
+     * @param cookTime the fuel ticks it takes to cook this item
+     * @param furnaceType the type of furnace this recipe is for. see {@link furnaceTypes}
+     * @return the recipe json to be stored statically on the client/server
+     */
     public static JsonObject createSmeltingRecipeJson(Item item, Item output,float experience, int cookTime,furnaceTypes furnaceType) {
         JsonObject json = new JsonObject();
         json.addProperty("type", "minecraft:"+furnaceType);
@@ -50,7 +61,21 @@ public class DynamicRecipeLoader {
 //        Logger.getAnonymousLogger().log(Level.SEVERE, json.toString());
         return json;
     }
+    public enum furnaceTypes{
+        smelting,
+        smoking,
+        blasting
+    }
 
+    /**
+     * Creates a smelting/blasting/cooking recipe with an arraylist of items/tags
+     * @param items the items to be used in the recipe
+     * @param output the resulting item reference.
+     * @param experience the experience gained from this recipe
+     * @param cookTime the fuel ticks it takes to cook this item
+     * @param furnaceType the type of furnace this recipe is for. see {@link furnaceTypes}
+     * @return the recipe json to be stored statically on the client/server
+     */
     public static JsonObject createSmeltingRecipeJsonComplex(Item[] items, Item output,float experience, int cookTime,furnaceTypes furnaceType) {
         JsonObject json = new JsonObject();
         json.addProperty("type", "minecraft:"+furnaceType);
@@ -69,6 +94,15 @@ public class DynamicRecipeLoader {
         return json;
     }
 
+    /**
+     * Creates a shaped recipe with and arraylist of items/tags
+     * @param items the items/tags to be used in the recipe
+     * @param type true = tag, false = item. Must match the size of items
+     * @param pattern the pattern of the recipe. IE: ["000", "0 0", "000"]
+     * @param output the resulting item reference.
+     * @param outputCount the amount of the resulting item
+     * @return the recipe json to be stored statically on the client/server
+     */
     public static JsonObject createShapedRecipeJson(ArrayList<Identifier> items, ArrayList<Boolean> type, ArrayList<String> pattern, Identifier output, int outputCount) {
         JsonObject json = new JsonObject();
         json.addProperty("type", "minecraft:crafting_shaped");
@@ -124,6 +158,12 @@ public class DynamicRecipeLoader {
         return json;
     }
 
+    /**
+     * Creates a new furnace crafting recipe
+     * @param tag a tag for the item the furnace will be made of
+     * @param expectedItem the furnace to be made
+     * @return the recipe json to be stored statically on the client/server
+     */
     public static JsonObject createFurnace(Identifier tag, Item expectedItem) {
         return createShapedRecipeJson(
                 Lists.newArrayList(tag),//items
@@ -133,6 +173,9 @@ public class DynamicRecipeLoader {
                 1);
     }
 
+    /**
+     * {@link #createFurnace(Identifier, Item)} but for blast furnaces
+     */
     public static JsonObject createBlast(Identifier tag, Item originalItem, Item expectedItem) {
         return createShapedRecipeJson(
                 Lists.newArrayList(Registry.ITEM.getId(Items.IRON_INGOT), Registry.ITEM.getId(originalItem), tag),//items
@@ -143,6 +186,9 @@ public class DynamicRecipeLoader {
         );
     }
 
+    /**
+     * {@link #createFurnace(Identifier, Item)} but for smokers
+     */
     public static JsonObject createSmoker(Item originalItem, Item expectedItem) {
         return createShapedRecipeJson(
                 Lists.newArrayList(Registry.ITEM.getId(originalItem), new Identifier("minecraft", "logs")),//items
@@ -152,6 +198,13 @@ public class DynamicRecipeLoader {
                 1
         );
     }
+
+    /**
+     * Creates a compressed block recipe.
+     * @param uncompressed the uncompressed block to be compressed
+     * @param compressed the resulting compressed block
+     * @return the recipe json to be stored statically on the client/server
+     */
     public static JsonObject createCompressedBlock(Item uncompressed, Item compressed){
         Identifier id = Registry.ITEM.getId(uncompressed);
         return createShapelessRecipeJson(
@@ -161,6 +214,13 @@ public class DynamicRecipeLoader {
                 1
         );
     }
+
+    /**
+     * the inverse of {@link #createCompressedBlock(Item, Item)}
+     * @param compressed the compressed block to be uncompressed
+     * @param uncompressed the resulting uncompressed block
+     * @return the recipe json to be stored statically on the client/server
+     */
     public static JsonObject createUncompressedBlock(Item compressed, Item uncompressed){
         Identifier id = Registry.ITEM.getId(compressed);
         return createShapelessRecipeJson(
@@ -170,13 +230,14 @@ public class DynamicRecipeLoader {
                 9
         );
     }
-    public enum ToolTypes{
-        Pickaxe,
-        Axe,
-        Sword,
-        Shovel,
-        Hoe,
-    }
+
+    /**
+     * Creates a tool recipe
+     * @param material the material of the tool, as an item
+     * @param toolType {@link ToolTypes}
+     * @param expectedItem the resulting tool
+     * @return the recipe json to be stored statically on the client/server
+     */
     public static JsonObject createTool(Item material, ToolTypes toolType, Item expectedItem){
         ArrayList<String> pattern = new ArrayList<>();
         switch (toolType){
@@ -195,6 +256,13 @@ public class DynamicRecipeLoader {
         );
     }
 
+    /**
+     * Creates a tool recipe
+     * @param materialTag the material of the tool, as a tag
+     * @param toolType {@link ToolTypes}
+     * @param expectedItem the resulting tool
+     * @return the recipe json to be stored statically on the client/server
+     */
     public static JsonObject createTool(Identifier materialTag, ToolTypes toolType, Item expectedItem){
         ArrayList<String> pattern = new ArrayList<>();
         switch (toolType){
@@ -211,5 +279,12 @@ public class DynamicRecipeLoader {
                 Registry.ITEM.getId(expectedItem),
                 1
         );
+    }
+    public enum ToolTypes{
+        Pickaxe,
+        Axe,
+        Sword,
+        Shovel,
+        Hoe,
     }
 }
