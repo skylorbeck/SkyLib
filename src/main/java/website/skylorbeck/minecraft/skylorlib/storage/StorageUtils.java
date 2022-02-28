@@ -58,7 +58,7 @@ public class StorageUtils {
     }
 
 
-    public static void transfer(Inventory to, ItemStack stack, int slot, @Nullable Direction side) {
+    public static ItemStack transfer(Inventory to, ItemStack stack, int slot, @Nullable Direction side) {
         ItemStack itemStack = to.getStack(slot);
         if (StorageUtils.canInsert(to, stack, slot, side)) {
             if (itemStack.isEmpty()) {
@@ -72,7 +72,9 @@ public class StorageUtils {
                 itemStack.increment(j);
             }
         }
+        return stack;
     }
+
     public static boolean canInsert(Inventory inventory, ItemStack stack, int slot, Direction dir) {
         if (!inventory.isValid(slot, stack)) {
             return false;
