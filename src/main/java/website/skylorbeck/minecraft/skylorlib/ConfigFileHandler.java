@@ -7,16 +7,19 @@ import com.google.gson.internal.Primitives;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static website.skylorbeck.minecraft.skylorlib.SkylorLib.Skylogger;
 
 public class ConfigFileHandler {
     /**
      * Attempts to load a config file from the given path, inside the /config/ folder. If the file does not exist, it will be created with the default values from obj.
      * @param path The path to the config file, inside the /config/ folder.
-     * @param obj The structure of the config file, with default/fallbacj values.
+     * @param obj The structure of the config file, with default/fallback values.
      * @return A copy of the config file, with the values loaded from the config. If no config file exists, a copy of the default values will be returned.
-     * @throws IOException If the file could not be read or written. This should never happen.
      */
-    public static <T> T initConfigFile(String path,Object obj) throws IOException {
+    public static <T> T initConfigFile(String path,Object obj) {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         Gson gson = gsonBuilder.create();
@@ -34,6 +37,7 @@ public class ConfigFileHandler {
                 e.printStackTrace();
             }
         }
-        throw new IOException("Config file not valid");
+        Skylogger.log(Level.SEVERE,"Failed to read or write log, returning default values");
+        return (T) obj;
     }
 }
