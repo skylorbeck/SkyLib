@@ -22,6 +22,8 @@ public class CapeMixin {
             cir.setReturnValue(new Identifier("skylorlib","textures/skylorscape.png"));
         } else if (name.equals("victoria_1393")){
             cir.setReturnValue(new Identifier("skylorlib","textures/vscape.png"));
+        } else if (name.equals("kern")){
+            cir.setReturnValue(new Identifier("skylorlib","textures/minecon2011.png"));
         }
     }
 }

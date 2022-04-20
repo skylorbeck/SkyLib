@@ -48,8 +48,9 @@ import java.util.Random;
 import java.util.function.BiPredicate;
 import java.util.function.Supplier;
 
+import static net.minecraft.block.ChestBlock.FACING;
+
 public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntity> implements Waterloggable {
-    public static final DirectionProperty FACING;
     public static final EnumProperty<ChestType> CHEST_TYPE;
     public static final BooleanProperty WATERLOGGED;
     protected static final VoxelShape DOUBLE_NORTH_SHAPE;
@@ -297,7 +298,6 @@ public abstract class ExtraChestBlock extends AbstractChestBlock<ExtraChestEntit
     }
 
     static {
-        FACING = HorizontalFacingBlock.FACING;
         CHEST_TYPE = Properties.CHEST_TYPE;
         WATERLOGGED = Properties.WATERLOGGED;
         DOUBLE_NORTH_SHAPE = Block.createCuboidShape(1.0D, 0.0D, 0.0D, 15.0D, 14.0D, 15.0D);

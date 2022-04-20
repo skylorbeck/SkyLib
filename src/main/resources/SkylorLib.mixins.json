@@ -4,6 +4,9 @@
   "package": "website.skylorbeck.minecraft.skylorlib.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "BarrelInventoryAccessor",
+    "ChestInventoryAccessor",
+    "ShulkerInventoryAccessor",
     "SlotAccessor",
     "XPFixMixin"
   ],

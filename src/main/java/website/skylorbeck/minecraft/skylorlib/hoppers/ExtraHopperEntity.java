@@ -1,9 +1,6 @@
 package website.skylorbeck.minecraft.skylorlib.hoppers;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ChestBlock;
-import net.minecraft.block.InventoryProvider;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
@@ -102,26 +99,22 @@ public abstract class ExtraHopperEntity extends LootableContainerBlockEntity imp
     private static boolean insertAndExtract(World world, BlockPos pos, BlockState state, ExtraHopperEntity blockEntity, BooleanSupplier booleanSupplier) {
         if (world.isClient) {
             return false;
-        } else {
-            if (!blockEntity.needsCooldown() && (Boolean)state.get(ExtraHopperBlock.ENABLED)) {
-                boolean bl = false;
-                if (!blockEntity.isEmpty()) {
-                    bl = insert(world, pos, state, blockEntity);
-                }
-
-                if (!blockEntity.isFull()) {
-                    bl |= booleanSupplier.getAsBoolean();
-                }
-
-                if (bl) {
-                    blockEntity.setCooldown(8);
-                    markDirty(world, pos, state);
-                    return true;
-                }
-            }
-
-            return false;
         }
+        if (!blockEntity.needsCooldown() && state.get(HopperBlock.ENABLED).booleanValue()) {
+            boolean bl = false;
+            if (!blockEntity.isEmpty()) {
+                bl = insert(world, pos, state, blockEntity);
+            }
+            if (!blockEntity.isFull()) {
+                bl |= booleanSupplier.getAsBoolean();
+            }
+            if (bl) {
+                blockEntity.setTransferCooldown(8);
+                markDirty(world, pos, state);
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isFull() {
@@ -144,28 +137,23 @@ public abstract class ExtraHopperEntity extends LootableContainerBlockEntity imp
 
         if (inventory2 == null) {
             return false;
-        } else {
-            Direction direction = ((Direction)state.get(ExtraHopperBlock.FACING)).getOpposite();
-            if (isInventoryFull(inventory2, direction)) {
-                return false;
-            } else {
-                for(int i = 0; i < inventory.size(); ++i) {
-                    if (!inventory.getStack(i).isEmpty()) {
-                        ItemStack itemStack = inventory.getStack(i).copy();
-                        assert be != null;
-                        ItemStack itemStack2 = transfer(inventory, inventory2, inventory.removeStack(i, ((ExtraHopperEntity)be).getMultiplier()), direction);
-                        if (itemStack2.isEmpty()) {
-                            inventory2.markDirty();
-                            return true;
-                        }
-
-                        inventory.setStack(i, itemStack);
-                    }
-                }
-
-                return false;
-            }
         }
+        Direction direction = state.get(HopperBlock.FACING).getOpposite();
+        if (isInventoryFull(inventory2, direction)) {
+            return false;
+        }
+        for (int i = 0; i < inventory.size(); ++i) {
+            if (inventory.getStack(i).isEmpty()) continue;
+            ItemStack itemStack = inventory.getStack(i).copy();
+            ItemStack itemStack2 = transfer(inventory, inventory2, inventory.removeStack(i, ((ExtraHopperEntity)be).multiplier), direction);
+            if (itemStack2.isEmpty()) {
+                inventory2.markDirty();
+                return true;
+            }
+            itemStack.setCount(itemStack.getCount()-(((ExtraHopperEntity)be).multiplier-itemStack2.getCount()));
+            inventory.setStack(i, itemStack);
+        }
+        return false;
     }
 
     private static IntStream getAvailableSlots(Inventory inventory, Direction side) {
@@ -243,18 +231,15 @@ public abstract class ExtraHopperEntity extends LootableContainerBlockEntity imp
         if (to instanceof SidedInventory && side != null) {
             SidedInventory sidedInventory = (SidedInventory)to;
             int[] is = sidedInventory.getAvailableSlots(side);
-
             for(int i = 0; i < is.length && !stack.isEmpty(); ++i) {
                 stack = transfer(from, to, stack, is[i], side);
             }
         } else {
             int j = to.size();
-
             for(int k = 0; k < j && !stack.isEmpty(); ++k) {
                 stack = transfer(from, to, stack, k, side);
             }
         }
-
         return stack;
     }
 
@@ -270,9 +255,10 @@ public abstract class ExtraHopperEntity extends LootableContainerBlockEntity imp
         return !(inv instanceof SidedInventory) || ((SidedInventory)inv).canExtract(slot, stack, facing);
     }
 
-    private static ItemStack transfer(@Nullable Inventory from, Inventory to, ItemStack stack, int slot, @Nullable Direction direction) {
+    private static ItemStack transfer(@Nullable Inventory from, Inventory to, ItemStack stack, int slot, @Nullable Direction side) {
         ItemStack itemStack = to.getStack(slot);
-        if (canInsert(to, stack, slot, direction)) {
+        if (canInsert(to, stack, slot, side)) {
+            int j;
             boolean bl = false;
             boolean bl2 = to.isEmpty();
             if (itemStack.isEmpty()) {
@@ -281,33 +267,31 @@ public abstract class ExtraHopperEntity extends LootableContainerBlockEntity imp
                 bl = true;
             } else if (canMergeItems(itemStack, stack)) {
                 int i = stack.getMaxCount() - itemStack.getCount();
-                int j = Math.min(stack.getCount(), i);
+                j = Math.min(stack.getCount(), i);
                 stack.decrement(j);
                 itemStack.increment(j);
-                bl = j > 0;
+                boolean bl3 = bl = j > 0;
             }
-
             if (bl) {
-                if (bl2 && to instanceof ExtraHopperEntity ExtraHopperBlockEntity) {
-                    if (!ExtraHopperBlockEntity.isDisabled()) {
-                        int k = 0;
-                        if (from instanceof ExtraHopperEntity ExtraHopperBlockEntity2) {
-                            if (ExtraHopperBlockEntity.lastTickTime >= ExtraHopperBlockEntity2.lastTickTime) {
-                                k = 1;
-                            }
+                ExtraHopperEntity hopperBlockEntity;
+                if (bl2 && to instanceof ExtraHopperEntity && !(hopperBlockEntity = (ExtraHopperEntity)to).isDisabled()) {
+                    j = 0;
+                    if (from instanceof HopperBlockEntity) {
+                        ExtraHopperEntity hopperBlockEntity2 = (ExtraHopperEntity)from;
+                        if (hopperBlockEntity.lastTickTime >= hopperBlockEntity2.lastTickTime) {
+                            j = 1;
                         }
-
-                        ExtraHopperBlockEntity.setCooldown(8 - k);
                     }
+                    hopperBlockEntity.setTransferCooldown(8 - j);
                 }
-
                 to.markDirty();
             }
         }
-
         return stack;
     }
-
+    private void setTransferCooldown(int transferCooldown) {
+        this.transferCooldown = transferCooldown;
+    }
     @Nullable
     private static Inventory getOutputInventory(World world, BlockPos pos, BlockState state) {
         Direction direction = (Direction)state.get(ExtraHopperBlock.FACING);

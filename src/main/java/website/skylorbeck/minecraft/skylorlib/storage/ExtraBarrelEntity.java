@@ -23,14 +23,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
+import website.skylorbeck.minecraft.skylorlib.mixin.BarrelInventoryAccessor;
 
 public abstract class ExtraBarrelEntity  extends LootableContainerBlockEntity {
-    public DefaultedList<ItemStack> inventory;
+//    public DefaultedList<ItemStack> inventory;
     private final ViewerCountManager stateManager;
 
     public ExtraBarrelEntity(BlockEntityType blockEntityType, BlockPos pos, BlockState state,int size) {
         super(blockEntityType, pos, state);
-        this.inventory = DefaultedList.ofSize(size, ItemStack.EMPTY);
+        ((BarrelInventoryAccessor)this).setInventory(DefaultedList.ofSize(size, ItemStack.EMPTY));
         this.stateManager = new ViewerCountManager() {
             protected void onContainerOpen(World world, BlockPos pos, BlockState state) {
                 ExtraBarrelEntity.this.playSound(state, SoundEvents.BLOCK_BARREL_OPEN);
@@ -60,30 +61,30 @@ public abstract class ExtraBarrelEntity  extends LootableContainerBlockEntity {
     public void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         if (!this.serializeLootTable(nbt)) {
-            StorageUtils.writeNbt(nbt, this.inventory);
+            StorageUtils.writeNbt(nbt, ((BarrelInventoryAccessor)this).getInventory());
         }
     }
 
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
+        ((BarrelInventoryAccessor)this).setInventory(DefaultedList.ofSize(this.size(), ItemStack.EMPTY));
         if (!this.deserializeLootTable(nbt)) {
-            StorageUtils.readNbt(nbt, this.inventory);
+            StorageUtils.readNbt(nbt, ((BarrelInventoryAccessor)this).getInventory());
         }
 
     }
 
     public int size() {
-        return this.inventory.size();
+        return ((BarrelInventoryAccessor)this).getInventory().size();
     }
 
     protected DefaultedList<ItemStack> getInvStackList() {
-        return this.inventory;
+        return ((BarrelInventoryAccessor)this).getInventory();
     }
 
     public void setInvStackList(DefaultedList<ItemStack> list) {
         for (int i = 0; i < list.size(); i++) {
-            this.inventory.set(i,list.get(i));
+            ((BarrelInventoryAccessor)this).getInventory().set(i,list.get(i));
         }
     }
 

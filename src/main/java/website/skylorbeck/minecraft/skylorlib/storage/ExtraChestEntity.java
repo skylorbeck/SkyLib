@@ -26,10 +26,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import website.skylorbeck.minecraft.skylorlib.mixin.ChestInventoryAccessor;
 
 public abstract class ExtraChestEntity extends ChestBlockEntity implements ChestAnimationProgress {
     private static String MODID = "skylorlib";
-    public DefaultedList<ItemStack> inventory;
+//    public DefaultedList<ItemStack> inventory;
     private final ViewerCountManager stateManager;
     private final ChestLidAnimator lidAnimator;
     private final static Identifier identifier = new Identifier("textures/atlas/chest.png");
@@ -46,7 +47,7 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
         this.singleLatch = singleLatch;
         ExtraChestEntity.MODID = MODID;
         base = MODID + ":entity/chest/";
-        this.inventory = DefaultedList.ofSize(size, ItemStack.EMPTY);
+        ((ChestInventoryAccessor)this).setInventory(DefaultedList.ofSize(size, ItemStack.EMPTY));
         this.stateManager = new ViewerCountManager() {
                 protected void onContainerOpen(World world, BlockPos pos, BlockState state) {
                     ExtraChestEntity.playSound(world, pos, state, SoundEvents.BLOCK_CHEST_OPEN);
@@ -86,14 +87,14 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
     }
 
     public int size() {
-        return this.inventory.size();
+        return ((ChestInventoryAccessor)this).getInventory().size();
     }
 
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
+        ((ChestInventoryAccessor)this).setInventory(DefaultedList.ofSize(this.size(), ItemStack.EMPTY));
         if (!this.deserializeLootTable(nbt)) {
-            StorageUtils.readNbt(nbt,this.inventory);
+            StorageUtils.readNbt(nbt,((ChestInventoryAccessor)this).getInventory());
         }
 
     }
@@ -101,7 +102,7 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
     public void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         if (!this.serializeLootTable(nbt)) {
-            StorageUtils.writeNbt(nbt,this.inventory);
+            StorageUtils.writeNbt(nbt,((ChestInventoryAccessor)this).getInventory());
         }
     }
 
@@ -149,12 +150,12 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
     }
 
     protected DefaultedList<ItemStack> getInvStackList() {
-        return this.inventory;
+        return ((ChestInventoryAccessor)this).getInventory();
     }
 
     public void setInvStackList(DefaultedList<ItemStack> list) {
         for (int i = 0; i < list.size(); i++) {
-            this.inventory.set(i,list.get(i));
+            ((ChestInventoryAccessor)this).getInventory().set(i,list.get(i));
         }
     }
 

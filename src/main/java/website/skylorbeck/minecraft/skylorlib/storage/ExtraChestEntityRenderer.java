@@ -21,6 +21,8 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
 
+import static net.minecraft.block.ChestBlock.FACING;
+
 @Environment(EnvType.CLIENT)
 public class ExtraChestEntityRenderer<T extends BlockEntity & ChestAnimationProgress> implements BlockEntityRenderer<T> {
     private static final String BASE = "bottom";
@@ -84,13 +86,13 @@ public class ExtraChestEntityRenderer<T extends BlockEntity & ChestAnimationProg
     public void render(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         World world = entity.getWorld();
         boolean bl = world != null;
-        BlockState blockState = bl ? entity.getCachedState() : (BlockState) Blocks.CHEST.getDefaultState().with(ExtraChestBlock.FACING, Direction.SOUTH);
+        BlockState blockState = bl ? entity.getCachedState() : (BlockState) Blocks.CHEST.getDefaultState().with(FACING, Direction.SOUTH);
         ChestType chestType = blockState.contains(ExtraChestBlock.CHEST_TYPE) ? (ChestType) blockState.get(ExtraChestBlock.CHEST_TYPE) : ChestType.SINGLE;
         Block block = blockState.getBlock();
         if (block instanceof AbstractChestBlock abstractChestBlock) {
             boolean bl2 = chestType != ChestType.SINGLE;
             matrices.push();
-            float f = ((Direction) blockState.get(ExtraChestBlock.FACING)).asRotation();
+            float f = ((Direction) blockState.get(FACING)).asRotation();
             matrices.translate(0.5D, 0.5D, 0.5D);
             matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-f));
             matrices.translate(-0.5D, -0.5D, -0.5D);
