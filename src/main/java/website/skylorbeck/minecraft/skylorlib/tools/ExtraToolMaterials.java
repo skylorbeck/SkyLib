@@ -72,7 +72,21 @@ public enum ExtraToolMaterials implements ToolMaterial {
     DEEPSLATE(1, 131, 4.0F, 1.0F, 5, () -> {//speed of stone, else iron
         return Ingredient.ofItems(Blocks.COBBLED_DEEPSLATE);
     }),
-
+    SPRUCE(0,59,2.0F,0.0F,15, () -> {//wood
+        return Ingredient.ofItems(Blocks.SPRUCE_PLANKS);
+    }),
+    BIRCH(0,59,2.0F,0.0F,15, () -> {//wood
+        return Ingredient.ofItems(Blocks.BIRCH_PLANKS);
+    }),
+    JUNGLE(0,59,2.0F,0.0F,15, () -> {//wood
+        return Ingredient.ofItems(Blocks.JUNGLE_PLANKS);
+    }),
+    ACACIA(0,59,2.0F,0.0F,15, () -> {//wood
+        return Ingredient.ofItems(Blocks.ACACIA_PLANKS);
+    }),
+    DARK_OAK(0,59,2.0F,0.0F,15, () -> {//wood
+        return Ingredient.ofItems(Blocks.DARK_OAK_PLANKS);
+    }),
     ;
     private final int miningLevel;
     private final int itemDurability;

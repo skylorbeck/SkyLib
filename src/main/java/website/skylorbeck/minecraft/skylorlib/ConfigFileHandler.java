@@ -2,13 +2,11 @@ package website.skylorbeck.minecraft.skylorlib;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.internal.Primitives;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static website.skylorbeck.minecraft.skylorlib.SkylorLib.Skylogger;
 

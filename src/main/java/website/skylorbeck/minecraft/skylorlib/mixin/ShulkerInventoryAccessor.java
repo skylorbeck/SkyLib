@@ -1,6 +1,5 @@
 package website.skylorbeck.minecraft.skylorlib.mixin;
 
-import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
