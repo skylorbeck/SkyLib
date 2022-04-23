@@ -79,13 +79,12 @@ public abstract class AbstractScreenHandler extends ScreenHandler {
         if (slot != null && slot.hasStack()) {
             ItemStack itemStack2 = slot.getStack();
             itemStack = itemStack2.copy();
-            if (index < 54 ? !this.insertItem(itemStack2, 54, this.slots.size(), true) : !this.insertItem(itemStack2, 0, 54, false)) {
+            if (index < this.rows * 9) {
+                if (!this.insertItem(itemStack2, this.rows * 9, this.slots.size(), true)) {
+                    return ItemStack.EMPTY;
+                }
+            } else if (!this.insertItem(itemStack2, this.curTab*54, this.rows * 9, false)) {
                 return ItemStack.EMPTY;
-            }
-            if (itemStack2.isEmpty()) {
-                slot.setStack(ItemStack.EMPTY);
-            } else {
-                slot.markDirty();
             }
         }
         return itemStack;
