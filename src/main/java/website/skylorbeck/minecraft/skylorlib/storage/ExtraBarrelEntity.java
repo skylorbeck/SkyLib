@@ -23,7 +23,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
-import website.skylorbeck.minecraft.skylorlib.mixin.BarrelInventoryAccessor;
 
 public abstract class ExtraBarrelEntity  extends LootableContainerBlockEntity {
     public DefaultedList<ItemStack> inventory;
@@ -89,17 +88,6 @@ public abstract class ExtraBarrelEntity  extends LootableContainerBlockEntity {
     }
 
     protected Text getContainerName() {
-        /* if (this instanceof IronBarrelEntity){
-            translatableText = new TranslatableText("container.ironbarrel");
-        } else if (this instanceof GoldBarrelEntity){
-            translatableText = new TranslatableText("container.goldbarrel");
-        } else if (this instanceof DiamondBarrelEntity){
-            translatableText = new TranslatableText("container.diamondbarrel");
-        } else if (this instanceof NetheriteBarrelEntity){
-            translatableText = new TranslatableText("container.netheritebarrel");
-        } else if (this instanceof AmethystBarrelEntity){
-            translatableText = new TranslatableText("container.amethystbarrel");
-        }*/
         return new TranslatableText("container.barrel");
     }
 

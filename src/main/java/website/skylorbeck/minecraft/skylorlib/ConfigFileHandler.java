@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import static website.skylorbeck.minecraft.skylorlib.SkylorLib.Skylogger;
 
 public class ConfigFileHandler {
     /**
@@ -35,7 +35,7 @@ public class ConfigFileHandler {
                 e.printStackTrace();
             }
         }
-        Skylogger.log(Level.SEVERE,"Failed to read or write log, returning default values");
+        Logger.getGlobal().log(Level.SEVERE,"Failed to read or write log, returning default values");
         return (T) obj;
     }
 }
