@@ -4,7 +4,6 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
@@ -275,8 +274,7 @@ public abstract class ExtraHopperEntity extends LootableContainerBlockEntity imp
                 ExtraHopperEntity hopperBlockEntity;
                 if (bl2 && to instanceof ExtraHopperEntity && !(hopperBlockEntity = (ExtraHopperEntity)to).isDisabled()) {
                     j = 0;
-                    if (from instanceof HopperBlockEntity) {
-                        ExtraHopperEntity hopperBlockEntity2 = (ExtraHopperEntity)from;
+                    if (from instanceof ExtraHopperEntity hopperBlockEntity2) {
                         if (hopperBlockEntity.lastTickTime >= hopperBlockEntity2.lastTickTime) {
                             j = 1;
                         }
