@@ -3,7 +3,6 @@ package website.skylorbeck.minecraft.skylorlib.storage;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.RenderLayer;
@@ -18,6 +17,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 
+import static net.minecraft.block.ShulkerBoxBlock.FACING;
+
 @Environment(EnvType.CLIENT)
 public class ExtraShulkerEntityRenderer<T extends BlockEntity> implements BlockEntityRenderer<T> {
     private final ShulkerEntityModel<?> model;
@@ -30,7 +31,7 @@ public class ExtraShulkerEntityRenderer<T extends BlockEntity> implements BlockE
         if (ExtraShulkerEntity.hasWorld()) {
             BlockState blockState = ExtraShulkerEntity.getWorld().getBlockState(ExtraShulkerEntity.getPos());
             if (blockState.getBlock() instanceof ExtraShulkerBlock) {
-                direction = (Direction)blockState.get(ExtraShulkerBlock.FACING);
+                direction = (Direction)blockState.get(FACING);
             }
         }
 

@@ -22,10 +22,10 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.LiteralTextContent;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.*;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.hit.BlockHitResult;
@@ -169,7 +169,7 @@ public abstract class ExtraShulkerBlock extends BlockWithEntity {
         NbtCompound nbtCompound = stack.getSubNbt("BlockEntityTag");
         if (nbtCompound != null) {
             if (nbtCompound.contains("LootTable", 8)) {
-                tooltip.add(new LiteralText("???????"));
+                tooltip.add(Text.translatable("???????"));
             }
 
             if (nbtCompound.contains("Items", 9)||nbtCompound.contains("Items2", 9) ) {
@@ -186,7 +186,7 @@ public abstract class ExtraShulkerBlock extends BlockWithEntity {
                         ++j;
                         if (i <= 4) {
                             ++i;
-                            MutableText mutableText = itemStack.getName().shallowCopy();
+                            MutableText mutableText = itemStack.getName().copy();
                             mutableText.append(" x").append(String.valueOf(itemStack.getCount()));
                             tooltip.add(mutableText);
                         }
@@ -194,7 +194,7 @@ public abstract class ExtraShulkerBlock extends BlockWithEntity {
                 }
 
                 if (j - i > 0) {
-                    tooltip.add((new TranslatableText("container.shulkerBox.more", j - i)).formatted(Formatting.ITALIC));
+                    tooltip.add((Text.translatable("container.shulkerBox.more", j - i)).formatted(Formatting.ITALIC));
                 }
             }
         }

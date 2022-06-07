@@ -19,7 +19,7 @@ import net.minecraft.screen.ShulkerBoxScreenHandler;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
@@ -262,6 +262,6 @@ public abstract class ExtraShulkerEntity extends LootableContainerBlockEntity im
     }
 
     protected Text getContainerName() {
-        return new TranslatableText("error");
+        return Text.translatable("error");
     }
 }

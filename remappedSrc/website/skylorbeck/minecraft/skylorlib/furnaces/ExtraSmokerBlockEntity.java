@@ -8,7 +8,7 @@ import net.minecraft.recipe.RecipeType;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.SmokerScreenHandler;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import website.skylorbeck.minecraft.skylorlib.Declarer;
@@ -22,7 +22,7 @@ public class ExtraSmokerBlockEntity extends AbstractExtraFurnaceBlockEntity {//c
     }
     @Override
     public Text getContainerName() {
-        return new TranslatableText("container.smoker");
+        return new TranslatableTextContent("container.smoker");
     }
 
     protected int getFuelTime(ItemStack fuel) {

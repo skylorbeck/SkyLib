@@ -1,6 +1,9 @@
 package website.skylorbeck.minecraft.skylorlib.furnaces;
 
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.LivingEntity;
@@ -13,7 +16,6 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
@@ -28,9 +30,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Objects;
 
+import static net.minecraft.block.AbstractFurnaceBlock.FACING;
+
 
 public abstract class AbstractExtraFurnaceBlock extends BlockWithEntity {//this is essentially a copy of minecrafts default furnace code but without the constant rebuilding of the library on every smelt
-    public static final DirectionProperty FACING = HorizontalFacingBlock.FACING;
     public static final BooleanProperty LIT = Properties.LIT;
     //private static final IntProperty DIM = IntProperty.of("dim",0,2); // old code from before abstraction
 

@@ -1,8 +1,5 @@
 package website.skylorbeck.minecraft.skylorlib;
 
-import net.fabricmc.fabric.api.network.PacketConsumer;
-import net.fabricmc.fabric.impl.networking.ClientSidePacketRegistryImpl;
-import net.fabricmc.fabric.impl.networking.ServerSidePacketRegistryImpl;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
@@ -28,26 +25,6 @@ public class Registrar {
      */
     public static void regBlock(String name, Block blockid, String MODID) {
         Registry.register(Registry.BLOCK, new Identifier(MODID, name + "block"), blockid);
-    }
-
-    /**
-     * Registers a server side packet.
-     * @param name identifier for the packet
-     * @param MODID your mod identifier
-     * @param serverInstructions instructions to be executed on the server side with the packet information
-     */
-    public static void regServerSidePacket(String name, String MODID, PacketConsumer serverInstructions) {
-        ServerSidePacketRegistryImpl.INSTANCE.register(new Identifier(MODID, name), serverInstructions);
-    }
-
-    /**
-     * Registers a client side packet.
-     * @param name identifier for the packet
-     * @param MODID your mod identifier
-     * @param clientInstructions instructions to be executed on the client side with the packet information
-     */
-    public static void regClientSidePacket(String name, String MODID, PacketConsumer clientInstructions) {
-        ClientSidePacketRegistryImpl.INSTANCE.register(new Identifier(MODID, name), clientInstructions);
     }
 
 }

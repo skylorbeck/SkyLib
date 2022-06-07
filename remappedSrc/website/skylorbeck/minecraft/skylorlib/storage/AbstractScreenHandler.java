@@ -1,6 +1,5 @@
 package website.skylorbeck.minecraft.skylorlib.storage;
 
-import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
@@ -8,10 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.util.collection.DefaultedList;
 import website.skylorbeck.minecraft.skylorlib.mixin.SlotAccessor;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public abstract class AbstractScreenHandler extends ScreenHandler {
     private final Inventory inventory;
@@ -21,13 +18,13 @@ public abstract class AbstractScreenHandler extends ScreenHandler {
 
     public AbstractScreenHandler(ScreenHandlerType screenHandlerType, int syncId, PlayerInventory playerInventory, Inventory inventory, int rows, int width) {
         super(screenHandlerType, syncId);
-        checkSize(inventory, rows*width);
+        checkSize(inventory, rows * width);
         this.rows = rows;
         this.width = width;
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
 
-        int i =36;
+        int i = 36;
 
         int n;
         int m;
@@ -78,7 +75,7 @@ public abstract class AbstractScreenHandler extends ScreenHandler {
     @Override
     public ItemStack transferSlot(PlayerEntity player, int index) {
         ItemStack itemStack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(index);
+        Slot slot = (Slot)this.slots.get(index);
         if (slot != null && slot.hasStack()) {
             ItemStack itemStack2 = slot.getStack();
             itemStack = itemStack2.copy();
@@ -89,16 +86,19 @@ public abstract class AbstractScreenHandler extends ScreenHandler {
             } else if (!this.insertItem(itemStack2, this.curTab*54, this.rows * 9, false)) {
                 return ItemStack.EMPTY;
             }
-
-            if (itemStack2.isEmpty()) {
-                slot.setStack(ItemStack.EMPTY);
-            } else {
-                slot.markDirty();
-            }
         }
-
         return itemStack;
     }
+
+    @Override
+    public DefaultedList<ItemStack> getStacks() {
+        DefaultedList<ItemStack> defaultedList = DefaultedList.of();
+        for (int i = 0; i < this.inventory.size(); i++) {
+            defaultedList.add(this.inventory.getStack(i));
+        }
+        return defaultedList;
+    }
+
 
     public void close(PlayerEntity player) {
         super.close(player);
@@ -113,7 +113,7 @@ public abstract class AbstractScreenHandler extends ScreenHandler {
         return this.rows;
     }
 
-    public void setTab(int tab){
+    public void setTab(int tab) {
         this.curTab = tab;
         int n;
         int m;

@@ -3,9 +3,12 @@ package website.skylorbeck.minecraft.skylorlib.storage;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChestBlock;
-import net.minecraft.block.entity.*;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.entity.ChestBlockEntity;
+import net.minecraft.block.entity.LidOpenable;
+import net.minecraft.block.entity.ViewerCountManager;
 import net.minecraft.block.enums.ChestType;
-import net.minecraft.client.block.ChestAnimationProgress;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -17,21 +20,20 @@ import net.minecraft.screen.GenericContainerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import website.skylorbeck.minecraft.skylorlib.mixin.ChestInventoryAccessor;
 
-public abstract class ExtraChestEntity extends ChestBlockEntity implements ChestAnimationProgress {
+public abstract class ExtraChestEntity extends ChestBlockEntity implements LidOpenable {
     private static String MODID = "skylorlib";
-    public DefaultedList<ItemStack> inventory;
+//    public DefaultedList<ItemStack> inventory;
     private final ViewerCountManager stateManager;
-    private final ChestLidAnimator lidAnimator;
     private final static Identifier identifier = new Identifier("textures/atlas/chest.png");
     private static String base = MODID + ":entity/chest/";
     private final String addition;
@@ -46,18 +48,15 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
         this.singleLatch = singleLatch;
         ExtraChestEntity.MODID = MODID;
         base = MODID + ":entity/chest/";
-        this.inventory = DefaultedList.ofSize(size, ItemStack.EMPTY);
+        ((ChestInventoryAccessor)this).setInventory(DefaultedList.ofSize(size, ItemStack.EMPTY));
         this.stateManager = new ViewerCountManager() {
                 protected void onContainerOpen(World world, BlockPos pos, BlockState state) {
-                    ExtraChestEntity.playSound(world, pos, state, SoundEvents.BLOCK_CHEST_OPEN);
                 }
 
                 protected void onContainerClose(World world, BlockPos pos, BlockState state) {
-                    ExtraChestEntity.playSound(world, pos, state, SoundEvents.BLOCK_CHEST_CLOSE);
                 }
 
                 protected void onViewerCountUpdate(World world, BlockPos pos, BlockState state, int oldViewerCount, int newViewerCount) {
-                    ExtraChestEntity.this.onInvOpenOrClose(world, pos, state, oldViewerCount, newViewerCount);
                 }
 
                 protected boolean isPlayerViewing(PlayerEntity player) {
@@ -72,7 +71,6 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
                     }
                 }
         };
-        this.lidAnimator = new ChestLidAnimator();
     }
 
     public SpriteIdentifier getSpriteIdentifier(){
@@ -86,29 +84,23 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
     }
 
     public int size() {
-        return this.inventory.size();
+        return ((ChestInventoryAccessor)this).getInventory().size();
     }
 
     public void readNbt(NbtCompound nbt) {
         super.readNbt(nbt);
-        this.inventory = DefaultedList.ofSize(this.size(), ItemStack.EMPTY);
+        ((ChestInventoryAccessor)this).setInventory(DefaultedList.ofSize(this.size(), ItemStack.EMPTY));
         if (!this.deserializeLootTable(nbt)) {
-            StorageUtils.readNbt(nbt,this.inventory);
+            StorageUtils.readNbt(nbt,((ChestInventoryAccessor)this).getInventory());
         }
 
     }
 
-    public NbtCompound writeNbt(NbtCompound nbt) {
+    public void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         if (!this.serializeLootTable(nbt)) {
-            StorageUtils.writeNbt(nbt,this.inventory);
+            StorageUtils.writeNbt(nbt,((ChestInventoryAccessor)this).getInventory());
         }
-
-        return nbt;
-    }
-
-    public static void clientTick(World world, BlockPos pos, BlockState state, ExtraChestEntity blockEntity) {
-        blockEntity.lidAnimator.step();
     }
 
     static void playSound(World world, BlockPos pos, BlockState state, SoundEvent soundEvent) {
@@ -127,41 +119,15 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
         }
     }
 
-    public boolean onSyncedBlockEvent(int type, int data) {
-        if (type == 1) {
-            this.lidAnimator.setOpen(data>0);
-            return true;
-        } else {
-            return super.onSyncedBlockEvent(type,data);
-        }
-    }
-
-    public void onOpen(PlayerEntity player) {
-        if (!this.removed && !player.isSpectator()) {
-            this.stateManager.openContainer(player, this.getWorld(), this.getPos(), this.getCachedState());
-        }
-
-    }
-
-    public void onClose(PlayerEntity player) {
-        if (!this.removed && !player.isSpectator()) {
-            this.stateManager.closeContainer(player, this.getWorld(), this.getPos(), this.getCachedState());
-        }
-
-    }
 
     protected DefaultedList<ItemStack> getInvStackList() {
-        return this.inventory;
+        return ((ChestInventoryAccessor)this).getInventory();
     }
 
     public void setInvStackList(DefaultedList<ItemStack> list) {
         for (int i = 0; i < list.size(); i++) {
-            this.inventory.set(i,list.get(i));
+            ((ChestInventoryAccessor)this).getInventory().set(i,list.get(i));
         }
-    }
-
-    public float getAnimationProgress(float tickDelta) {
-        return this.lidAnimator.getProgress(tickDelta);
     }
 
     public static int getPlayersLookingInChestCount(BlockView world, BlockPos pos) {
@@ -196,10 +162,10 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements Chest
 
     //override these
     protected Text getContainerName() {
-        return new TranslatableText("container.chest");
+        return new TranslatableTextContent("container.chest");
     }
     protected Text getDoubleContainerName(){
-        return new TranslatableText("container.chestDouble");
+        return new TranslatableTextContent("container.chestDouble");
     }
     protected ScreenHandler createDoubleScreenHandler(int syncid, PlayerInventory playerInventory, Inventory inventory){
         return GenericContainerScreenHandler.createGeneric9x6(syncid,playerInventory,inventory);

@@ -26,7 +26,7 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -55,7 +55,7 @@ public abstract class AbstractExtraFurnaceBlockEntity extends LockableContainerB
 
     @Override
     public Text getContainerName() {
-        return new TranslatableText("container.furnace");
+        return new TranslatableTextContent("container.furnace");
     }
     @Override
     protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
@@ -114,7 +114,7 @@ public abstract class AbstractExtraFurnaceBlockEntity extends LockableContainerB
 
     }
     @Override
-    public NbtCompound writeNbt(NbtCompound tag) {
+    public void writeNbt(NbtCompound tag) {
         super.writeNbt(tag);
         tag.putShort("BurnTime", (short)this.burnTime);
         tag.putShort("CookTime", (short)this.cookTime);
@@ -123,7 +123,6 @@ public abstract class AbstractExtraFurnaceBlockEntity extends LockableContainerB
         NbtCompound compoundTag = new NbtCompound();
         this.recipesUsed.forEach((identifier, integer) -> compoundTag.putInt(identifier.toString(), integer));
         tag.put("RecipesUsed", compoundTag);
-        return tag;
     }
 
     public static void tick(World world, BlockPos pos, BlockState state, AbstractExtraFurnaceBlockEntity blockEntity) {

@@ -1,9 +1,13 @@
 package website.skylorbeck.minecraft.skylorlib.storage;
 
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.Direction;
+import org.jetbrains.annotations.Nullable;
 
 public class StorageUtils {
     public static void readNbt(NbtCompound nbt, DefaultedList<ItemStack> stacks) {
@@ -51,5 +55,42 @@ public class StorageUtils {
         }
 
         return nbt;
+    }
+
+
+    public static ItemStack transfer(Inventory to, ItemStack stack, int slot, @Nullable Direction side) {
+        ItemStack itemStack = to.getStack(slot);
+        if (StorageUtils.canInsert(to, stack, slot, side)) {
+            if (itemStack.isEmpty()) {
+                to.setStack(slot, stack);
+                stack = ItemStack.EMPTY;
+                to.markDirty();
+            } else if (StorageUtils.canMergeItems(itemStack, stack)) {
+                int i = stack.getMaxCount() - itemStack.getCount();
+                int j = Math.min(stack.getCount(), i);
+                stack.decrement(j);
+                itemStack.increment(j);
+            }
+        }
+        return stack;
+    }
+
+    public static boolean canInsert(Inventory inventory, ItemStack stack, int slot, Direction dir) {
+        if (!inventory.isValid(slot, stack)) {
+            return false;
+        }
+        return !(inventory instanceof SidedInventory) || ((SidedInventory)inventory).canInsert(slot, stack, dir);
+    }
+    public static boolean canMergeItems(ItemStack first, ItemStack second) {
+        if (!first.isOf(second.getItem())) {
+            return false;
+        }
+        if (first.getDamage() != second.getDamage()) {
+            return false;
+        }
+        if (first.getCount() + second.getCount() > first.getMaxCount()) {
+            return false;
+        }
+        return ItemStack.areNbtEqual(first, second);
     }
 }

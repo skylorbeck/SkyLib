@@ -18,6 +18,8 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
+import static net.minecraft.block.AbstractFurnaceBlock.FACING;
+
 
 public class ExtraBlastFurnaceBlock extends AbstractExtraFurnaceBlock {//copy of vanilla code
     public ExtraBlastFurnaceBlock(Settings settings) {

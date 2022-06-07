@@ -1,8 +1,10 @@
 package website.skylorbeck.minecraft.skylorlib.storage;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ChestBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.stat.Stat;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
@@ -13,8 +15,8 @@ import net.minecraft.world.BlockView;
 
 import java.util.function.Supplier;
 
-public abstract class ExtraTrappedChestBlock extends ExtraChestBlock {
-    public ExtraTrappedChestBlock(Settings settings, Supplier<BlockEntityType<? extends ExtraChestEntity>> supplier) {
+public abstract class ExtraTrappedChestBlock extends ChestBlock {
+    public ExtraTrappedChestBlock(Settings settings, Supplier<BlockEntityType<? extends ChestBlockEntity>> supplier) {
         super(settings, supplier);
     }
 

@@ -1,12 +1,13 @@
 package website.skylorbeck.minecraft.skylorlib.storage;
 
+import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.LidOpenable;
 import net.minecraft.block.enums.ChestType;
-import net.minecraft.client.block.ChestAnimationProgress;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -21,8 +22,11 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3f;
 import net.minecraft.world.World;
 
+import static net.minecraft.block.ChestBlock.CHEST_TYPE;
+import static net.minecraft.block.ChestBlock.FACING;
+
 @Environment(EnvType.CLIENT)
-public class ExtraChestEntityRenderer<T extends BlockEntity & ChestAnimationProgress> implements BlockEntityRenderer<T> {
+public class ExtraChestEntityRenderer<T extends BlockEntity & LidOpenable> implements BlockEntityRenderer<T> {
     private static final String BASE = "bottom";
     private static final String LID = "lid";
     private static final String LATCH = "lock";
@@ -84,13 +88,13 @@ public class ExtraChestEntityRenderer<T extends BlockEntity & ChestAnimationProg
     public void render(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
         World world = entity.getWorld();
         boolean bl = world != null;
-        BlockState blockState = bl ? entity.getCachedState() : (BlockState) Blocks.CHEST.getDefaultState().with(ExtraChestBlock.FACING, Direction.SOUTH);
-        ChestType chestType = blockState.contains(ExtraChestBlock.CHEST_TYPE) ? (ChestType) blockState.get(ExtraChestBlock.CHEST_TYPE) : ChestType.SINGLE;
+        BlockState blockState = bl ? entity.getCachedState() : Blocks.CHEST.getDefaultState().with(FACING, Direction.SOUTH);
+        ChestType chestType = blockState.contains(CHEST_TYPE) ? blockState.get(CHEST_TYPE) : ChestType.SINGLE;
         Block block = blockState.getBlock();
         if (block instanceof AbstractChestBlock abstractChestBlock) {
             boolean bl2 = chestType != ChestType.SINGLE;
             matrices.push();
-            float f = ((Direction) blockState.get(ExtraChestBlock.FACING)).asRotation();
+            float f = blockState.get(FACING).asRotation();
             matrices.translate(0.5D, 0.5D, 0.5D);
             matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-f));
             matrices.translate(-0.5D, -0.5D, -0.5D);
@@ -100,8 +104,8 @@ public class ExtraChestEntityRenderer<T extends BlockEntity & ChestAnimationProg
             } else {
                 propertySource2 = DoubleBlockProperties.PropertyRetriever::getFallback;
             }
-//            float g = ((Float2FloatFunction) propertySource2.apply(ExtraChestBlock.getAnimationProgressRetriever(entity))).get(tickDelta);
-            float g = entity.getAnimationProgress(tickDelta);
+            float g = ((Float2FloatFunction) propertySource2.apply(ChestBlock.getAnimationProgressRetriever(entity))).get(tickDelta);
+//            float g = entity.getAnimationProgress(tickDelta);
             g = 1.0F - g;
             g = 1.0F - g * g * g;
             int i = ((Int2IntFunction) propertySource2.apply(new LightmapCoordinatesRetriever())).applyAsInt(light);

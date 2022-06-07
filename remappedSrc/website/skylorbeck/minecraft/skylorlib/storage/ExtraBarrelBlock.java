@@ -16,9 +16,6 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.state.property.DirectionProperty;
-import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.hit.BlockHitResult;
@@ -31,9 +28,10 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Random;
 
+import static net.minecraft.block.BarrelBlock.FACING;
+import static net.minecraft.block.BarrelBlock.OPEN;
+
 public abstract class ExtraBarrelBlock extends BlockWithEntity {
-    public static final DirectionProperty FACING;
-    public static final BooleanProperty OPEN;
 
     public ExtraBarrelBlock(Settings settings) {
         super(settings);
@@ -118,9 +116,5 @@ public abstract class ExtraBarrelBlock extends BlockWithEntity {
     @Override
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
         super.appendTooltip(stack, world, tooltip, options);
-    }
-    static {
-        FACING = Properties.FACING;
-        OPEN = Properties.OPEN;
     }
 }

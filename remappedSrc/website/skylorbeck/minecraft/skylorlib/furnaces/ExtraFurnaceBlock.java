@@ -19,6 +19,8 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Random;
 
+import static net.minecraft.block.AbstractFurnaceBlock.FACING;
+
 
 public class ExtraFurnaceBlock extends AbstractExtraFurnaceBlock {
     private static final IntProperty DIM = IntProperty.of("dim",0,2);//dimension. This determines the color of the flames used on the furnace. Set at registration
