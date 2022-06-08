@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '0.11-SNAPSHOT'
+    id 'fabric-loom' version '0.12-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -16,25 +16,30 @@ repositories {
         name = "TerraformersMC"
         url = "https://maven.terraformersmc.com/"
     }
+    maven {
+        name = 'Ladysnake Mods'
+        url = 'https://ladysnake.jfrog.io/artifactory/mods'
+    }
+    maven { url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/" }
+    maven { url 'https://maven.blamejared.com' }
+    maven { url "https://maven.bai.lol" }
     maven { url "https://maven.shedaniel.me/" }
+    maven { url "https://maven.theillusivec4.top"}
+    maven { url 'https://maven.blamejared.com' }
     mavenLocal()
-
 }
 
 dependencies {
-    //to change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
-    // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    //modmenu
+//    modImplementation "website.skylorbeck.minecraft:SkylorLib:${project.skylib_version}"
+//    modImplementation "software.bernie.geckolib:geckolib-fabric-1.19:${project.geckolib_version}"
+//    modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}") {exclude(group: "net.fabricmc.fabric-api")}
     modRuntimeOnly "com.terraformersmc:modmenu:${project.mod_menu_version}"
-
-
-    // PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
-    // You may need to force-disable transitiveness on them.
+//    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}"
+//    modRuntimeOnly "mcp.mobius.waila:wthit:fabric-${wthit_version}"
 }
 
 processResources {

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,16 +22,17 @@ public class ConfigFileHandler {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         Gson gson = gsonBuilder.create();
-        if (!Files.exists(Paths.get("config/"+path))) {
+        Path of = Path.of("config/" + path);
+        if (!Files.exists(of)) {
             try {
-                Files.write(Paths.get("config/"+path), gson.toJson(obj).getBytes());
+                Files.write(of, gson.toJson(obj).getBytes());
                 return (T) obj;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         } else {
             try {
-                return (T) gson.fromJson(Files.readString(Paths.get("config/"+path)), obj.getClass());
+                return (T) gson.fromJson(Files.readString(of), obj.getClass());
             } catch (IOException e) {
                 e.printStackTrace();
             }
