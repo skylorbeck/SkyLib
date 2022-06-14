@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "BarrelInventoryAccessor",
+    "BrewingRecipeRegistryInvoker",
     "ChestInventoryAccessor",
     "ScreenHandlerMixin",
     "ShulkerInventoryAccessor",

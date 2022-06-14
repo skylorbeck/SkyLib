@@ -7,5 +7,9 @@
   "block.skylorlib.compressed.sextuple":"531,441 Blocks",
   "block.skylorlib.compressed.septuple":"4,782,969 Blocks",
   "block.skylorlib.compressed.octuple":"43,046,721 Blocks",
-  "block.skylorlib.compressed.nonuple":"387,420,489 Blocks"
+  "block.skylorlib.compressed.nonuple":"387,420,489 Blocks",
+  "item.skylorlib.golden_wheat_item": "Golden Wheat",
+  "item.skylorlib.golden_seeds_item": "Golden Seeds",
+  "item.skylorlib.golden_bread_item": "Golden Bread",
+  "block.skylorlib.golden_wheat_block": "Golden Wheat"
 }

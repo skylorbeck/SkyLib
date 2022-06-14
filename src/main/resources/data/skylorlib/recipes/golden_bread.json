@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "skylorlib:golden_wheat_item"
+    },
+    {
+      "item": "skylorlib:golden_wheat_item"
+    },
+    {
+      "item": "skylorlib:golden_wheat_item"
+    }
+  ],
+  "result": {
+    "item": "skylorlib:golden_bread_item",
+    "count": 1
+  }
+}

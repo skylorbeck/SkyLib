@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/crop",
+  "textures": {
+    "crop": "skylorlib:block/wheat_stage6"
+  }
+}
