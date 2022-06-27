@@ -12,8 +12,9 @@
   "item.skylorlib.golden_seeds_item": "Golden Seeds",
   "item.skylorlib.golden_bread_item": "Golden Bread",
   "block.skylorlib.golden_wheat_block": "Golden Wheat",
-  "effect.minecraft.megafy": "Megafying",
+  "effect.skylorlib.megafy": "Megafying",
   "item.minecraft.lingering_potion.effect.mega_potion": "Lingering Mega Potion",
   "item.minecraft.potion.effect.mega_potion": "Mega Potion",
-  "item.minecraft.splash_potion.effect.mega_potion": "Splash Mega Potion"
+  "item.minecraft.splash_potion.effect.mega_potion": "Splash Mega Potion",
+  "item.minecraft.tipped_arrow.effect.mega_potion": "Arrow of Megafy"
 }

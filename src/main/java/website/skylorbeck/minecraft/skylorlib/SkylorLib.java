@@ -14,6 +14,7 @@ import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.potion.Potions;
 import net.minecraft.predicate.StatePredicate;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import website.skylorbeck.minecraft.skylorlib.mixin.BrewingRecipeRegistryInvoker;
 
@@ -24,8 +25,8 @@ public class SkylorLib implements ModInitializer {
         Registrar.regItem("golden_seeds_", Declarer.GOLDEN_WHEAT_SEEDS, "skylorlib");
         Registrar.regItem("golden_wheat_", Declarer.GOLDEN_WHEAT_ITEM, "skylorlib");
         Registrar.regItem("golden_bread_", Declarer.GOLDEN_BREAD_ITEM, "skylorlib");
-        Registry.register(Registry.STATUS_EFFECT, "megafy",Declarer.MEGAFY);
-        Registry.register(Registry.POTION, "mega_potion",Declarer.MEGA_POTION);
+        Registry.register(Registry.STATUS_EFFECT, new Identifier("skylorlib","megafy"),Declarer.MEGAFY);
+        Registry.register(Registry.POTION, new Identifier("skylorlib","mega_potion"),Declarer.MEGA_POTION);
         BrewingRecipeRegistryInvoker.invokeRegisterPotionRecipe(Potions.STRENGTH, Declarer.GOLDEN_WHEAT_ITEM, Declarer.MEGA_POTION);
 
         LootTableEvents.MODIFY.register(((resourceManager, lootManager, id, tableBuilder, source) -> {
