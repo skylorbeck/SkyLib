@@ -6,9 +6,9 @@ import net.minecraft.block.ChestBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ChestBlockEntity;
-import net.minecraft.block.entity.LidOpenable;
 import net.minecraft.block.entity.ViewerCountManager;
 import net.minecraft.block.enums.ChestType;
+import net.minecraft.client.block.ChestAnimationProgress;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -21,7 +21,7 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableTextContent;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -30,7 +30,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import website.skylorbeck.minecraft.skylorlib.mixin.ChestInventoryAccessor;
 
-public abstract class ExtraChestEntity extends ChestBlockEntity implements LidOpenable {
+public abstract class ExtraChestEntity extends ChestBlockEntity implements ChestAnimationProgress {
     private static String MODID = "skylorlib";
 //    public DefaultedList<ItemStack> inventory;
     private final ViewerCountManager stateManager;
@@ -162,10 +162,10 @@ public abstract class ExtraChestEntity extends ChestBlockEntity implements LidOp
 
     //override these
     protected Text getContainerName() {
-        return Text.translatable("container.chest");
+        return new TranslatableText("container.chest");
     }
     protected Text getDoubleContainerName(){
-        return Text.translatable("container.chestDouble");
+        return new TranslatableText("container.chestDouble");
     }
     protected ScreenHandler createDoubleScreenHandler(int syncid, PlayerInventory playerInventory, Inventory inventory){
         return GenericContainerScreenHandler.createGeneric9x6(syncid,playerInventory,inventory);

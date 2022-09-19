@@ -87,9 +87,9 @@ public enum ExtraToolMaterials implements ToolMaterial {
     DARK_OAK(0,59,2.0F,0.0F,15, () -> {//wood
         return Ingredient.ofItems(Blocks.DARK_OAK_PLANKS);
     }),
-    MANGROVE(0,59,2.0F,0.0F,15, () -> {//wood
-        return Ingredient.ofItems(Blocks.MANGROVE_PLANKS);
-    }),
+//    MANGROVE(0,59,2.0F,0.0F,15, () -> {//wood
+//        return Ingredient.ofItems(Blocks.MANGROVE_PLANKS);
+//    }),
     ;
     private final int miningLevel;
     private final int itemDurability;

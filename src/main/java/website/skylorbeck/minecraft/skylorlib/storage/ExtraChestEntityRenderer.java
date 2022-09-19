@@ -6,8 +6,8 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.LidOpenable;
 import net.minecraft.block.enums.ChestType;
+import net.minecraft.client.block.ChestAnimationProgress;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -26,7 +26,7 @@ import static net.minecraft.block.ChestBlock.CHEST_TYPE;
 import static net.minecraft.block.ChestBlock.FACING;
 
 @Environment(EnvType.CLIENT)
-public class ExtraChestEntityRenderer<T extends BlockEntity & LidOpenable> implements BlockEntityRenderer<T> {
+public class ExtraChestEntityRenderer<T extends BlockEntity & ChestAnimationProgress> implements BlockEntityRenderer<T> {
     private static final String BASE = "bottom";
     private static final String LID = "lid";
     private static final String LATCH = "lock";

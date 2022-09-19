@@ -22,10 +22,9 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.stat.Stats;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.EnumProperty;
-import net.minecraft.text.LiteralTextContent;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableTextContent;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.*;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.hit.BlockHitResult;
@@ -169,7 +168,7 @@ public abstract class ExtraShulkerBlock extends BlockWithEntity {
         NbtCompound nbtCompound = stack.getSubNbt("BlockEntityTag");
         if (nbtCompound != null) {
             if (nbtCompound.contains("LootTable", 8)) {
-                tooltip.add(Text.translatable("???????"));
+                tooltip.add(new TranslatableText("???????"));
             }
 
             if (nbtCompound.contains("Items", 9)||nbtCompound.contains("Items2", 9) ) {
@@ -194,7 +193,7 @@ public abstract class ExtraShulkerBlock extends BlockWithEntity {
                 }
 
                 if (j - i > 0) {
-                    tooltip.add((Text.translatable("container.shulkerBox.more", j - i)).formatted(Formatting.ITALIC));
+                    tooltip.add((new TranslatableText("container.shulkerBox.more", j - i)).formatted(Formatting.ITALIC));
                 }
             }
         }

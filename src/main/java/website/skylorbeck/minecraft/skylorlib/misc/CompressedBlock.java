@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,15 +22,15 @@ public class CompressedBlock extends Block {
     @Override
     public void appendTooltip(ItemStack stack, @Nullable BlockView world, List<Text> tooltip, TooltipContext options) {
         switch (this.getDefaultState().get(compression)) {//append different tooltips based on the state given at block registration
-            case 1 -> tooltip.add(Text.translatable("block.skylorlib.compressed.monuple"));
-            case 2 -> tooltip.add(Text.translatable("block.skylorlib.compressed.couple"));
-            case 3 -> tooltip.add(Text.translatable("block.skylorlib.compressed.triple"));
-            case 4 -> tooltip.add(Text.translatable("block.skylorlib.compressed.quadruple"));
-            case 5 -> tooltip.add(Text.translatable("block.skylorlib.compressed.quintuple"));
-            case 6 -> tooltip.add(Text.translatable("block.skylorlib.compressed.sextuple"));
-            case 7 -> tooltip.add(Text.translatable("block.skylorlib.compressed.septuple"));
-            case 8 -> tooltip.add(Text.translatable("block.skylorlib.compressed.octuple"));
-            case 9 -> tooltip.add(Text.translatable("block.skylorlib.compressed.nonuple"));
+            case 1 -> tooltip.add(new TranslatableText("block.skylorlib.compressed.monuple"));
+            case 2 -> tooltip.add(new TranslatableText("block.skylorlib.compressed.couple"));
+            case 3 -> tooltip.add(new TranslatableText("block.skylorlib.compressed.triple"));
+            case 4 -> tooltip.add(new TranslatableText("block.skylorlib.compressed.quadruple"));
+            case 5 -> tooltip.add(new TranslatableText("block.skylorlib.compressed.quintuple"));
+            case 6 -> tooltip.add(new TranslatableText("block.skylorlib.compressed.sextuple"));
+            case 7 -> tooltip.add(new TranslatableText("block.skylorlib.compressed.septuple"));
+            case 8 -> tooltip.add(new TranslatableText("block.skylorlib.compressed.octuple"));
+            case 9 -> tooltip.add(new TranslatableText("block.skylorlib.compressed.nonuple"));
         }
     }
     @Override

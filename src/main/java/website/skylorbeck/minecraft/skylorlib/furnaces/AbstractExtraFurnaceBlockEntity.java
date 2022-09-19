@@ -26,7 +26,7 @@ import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableTextContent;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -55,7 +55,7 @@ public abstract class AbstractExtraFurnaceBlockEntity extends LockableContainerB
 
     @Override
     public Text getContainerName() {
-        return Text.translatable("container.furnace");
+        return new TranslatableText("container.furnace");
     }
     @Override
     protected ScreenHandler createScreenHandler(int syncId, PlayerInventory playerInventory) {
