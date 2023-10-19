@@ -1,0 +1,56 @@
+{
+	"schemaVersion": 1,
+	"id": "skylorlib",
+	"version": "$version",
+	"name": "SkyLib",
+	"description": "A library designed for use with all mods by Skylor Beck",
+	"authors": [
+		"Skylor Beck"
+	],
+	"contact": {
+		"homepage": "https://www.skylorbeck.website",
+		"repo": "https://github.com/Skylortrexler/SkylorLib",
+		"sources": "https://github.com/Skylortrexler/SkylorLib",
+		"issues": "https://github.com/Skylortrexler/SkylorLib/issues"
+	},
+	"license": "LGPL-3.0",
+	"icon": "assets/skylorlib/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "website.skylorbeck.minecraft.SkyLib",
+				"adapter": "kotlin"
+			}
+		],
+		"client": [
+			{
+				"value": "website.skylorbeck.minecraft.SkyLibClient",
+				"adapter": "kotlin"
+			}
+		],
+		"fabric-datagen": [
+			{
+				"value": "website.skylorbeck.minecraft.SkyLibDataGenerator",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"mixins": [
+		"skylib.mixins.json",
+		{
+			"config": "skylib.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.14.23",
+		"minecraft": "~1.20.2",
+		"java": ">=17",
+		"fabric-api": "*",
+		"fabric-language-kotlin": ">=1.10.8+kotlin.1.9.0"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
